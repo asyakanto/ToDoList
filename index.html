@@ -6,9 +6,32 @@
   <title>AK ToDoList</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="assets/images/favico.jpg">
-</head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></head>
 <body>
-  
+  <div class="nav">
+    <div class="nav__container">
+      <input type="checkbox" id="burgermenu-checkbox" class="nav__checkbox">
+      <div class="nav__top">
+        <h1 class="nav__title">AK ToDoList</h1>
+        <label for="burgermenu-checkbox" class="nav__burger">
+          <span class="nav__burger--line"></span>
+          <span class="nav__burger--line"></span>
+          <span class="nav__burger--line"></span>
+        </label>
+      </div>
+      <div class="nav__items">
+        <div class="nav__item"><a href="#" class="nav__button" data-tooltip="Настройки"><i class="fa-solid fa-gear"></i><span class="nav__text">Настройки</span></a></div>
+        <div class="nav__item"><button class="nav__button nav__theme" data-tooltip="Тема"><i class="fa-solid fa-moon"></i><span class="nav__text">Тема</span></button></div>
+        <div class="nav__item nav__item--img"><img src="assets/images/favico.jpg" alt="Site Logo"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+  </div>
+
+
+
   <script src="JS/index.js"></script>
 </body>
 </html>
