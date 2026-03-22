@@ -7,9 +7,9 @@
   --accent: #7c5cff;
   --border: #2a2a2a;
 
-  --priority-1: #ff4d4d;
-  --priority-2: #ffaa00;
-  --priority-3: #666;
+  --priority-1: #e25f5f;
+  --priority-2: #d29e1d;
+  --priority-3: #7a7a7a;
 }
 
 /*=========Main===============*/
@@ -26,6 +26,11 @@ body{
 img {
   max-width: 100%;
   display: block;
+}
+
+::selection{
+  background-color: var(--accent);
+  color: var(--bg-secondary);
 }
 
 /*=========Navbar=============*/
@@ -153,7 +158,7 @@ img {
   scale: 1.05
 }
 
-/*========= DESKTOP =============*/
+/*========= DESKTOP-NavBar=======*/
 
 @media (min-width: 700px){
   /*Navbar*/
@@ -197,4 +202,262 @@ img {
   .nav__button i{
     font-size: 1.4rem;
   }
+}
+
+/*=========Main===============*/
+
+.container{
+  width: min(100%, 1500px);
+  margin: 0 auto;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+.column{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.month, .day, .calendar, .habit{
+  background-color: var(--bg-secondary);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+@media (min-width: 850px){
+  .container{
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/*=========Controls===========*/
+.month__controls, .day__controls, .calendar__controls{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.day__title, .month__title, .calendar__title{
+  flex: 1;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.month__btn, .day__btn, .calendar__btn{
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+.month__btn:hover, .day__btn:hover, .calendar__btn:hover{
+  color: var(--accent);
+  scale: 1.05;
+  transform: translateY(-1px);
+}
+
+/*=========Lists==============*/
+.month__list, .day__list{
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-content: start;
+}
+
+.month__item, .day__item{
+  display: grid;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--bg);
+  grid-template-columns: auto 1fr auto auto;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.1s ease;
+}
+
+.month__item:hover, .day__item:hover{
+  background-color: var(--bg-hover);
+}
+
+.month__text, .day__text{
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.priority{
+  background-color: var(--accent);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.priority--1{
+  background-color: var(--priority-1);
+}
+.priority--2{
+  background-color: var(--priority-2);
+}
+.priority--3{
+  background-color: var(--priority-3);
+}
+
+.month__actions{
+  display: flex;
+  gap: 10px;
+}
+.month__actions button, .day__actions button{
+  background: none;
+  color: var(--text);
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.month__actions button:hover, .day__actions button:hover{
+  scale: 1.05;
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.month__item--done, .day__item--done{
+  opacity: 0.6;
+  text-decoration: line-through;
+  display: none;
+}
+
+.day__check{
+  color: var(--text);
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+.day__check:hover{
+  scale: 1.05;
+}
+
+@media (min-width: 1200px) {
+  .month__list,
+  .day__list{
+    column-count: 2;
+    column-gap: 8px;
+    display: block;
+  }
+  
+  .month__item,
+  .day__item{
+    margin-bottom: 8px;
+  }
+}
+
+/*=========Calendar===========*/
+.calendar__header{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 0.8rem;
+  margin-bottom: 5px;
+}
+.calendar__grid{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+.calendar__day{
+  aspect-ratio: 1/1;
+  background-color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  transition: all 0.1s ease;
+  cursor: pointer;
+}
+.calendar__day:hover{
+  background-color: var(--bg-hover);
+  scale: 1.05;
+}
+
+/*=========Habit==============*/
+.habit__header{
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+.habit__grid{
+  display: grid;
+  grid-template-columns: 100px repeat(7, 1fr);
+  gap: 8px;
+  align-items: center;
+  text-align: center;
+}
+.habit__name{
+  padding-left: 5px;
+  font-size: 1.1rem
+}
+.habit__cell{
+  aspect-ratio: 1/1;
+  background-color: var(--bg);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.1s ease
+}
+.habit__cell:hover{
+  scale: 1.05
+}
+
+.habit__cell--done{
+  background: var(--accent);
+}
+
+/*=========Inputs=============*/
+.input{
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background-color: var(--bg);
+  color: var(--text);
+  outline: none;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.input:focus{
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(124, 92, 255, 0.3);
+  background: var(--bg-hover);
+}
+.input::placeholder{
+  color: var(--priority-3);
+}
+.month__input-wrapper,
+.day__input-wrapper,
+.habit__input-wrapper{
+  margin-bottom: 15px;
+}
+.input:hover{
+  border-color: var(--accent);
+}
+.input:focus::placeholder{
+  opacity: 0.3;
 }
