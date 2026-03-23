@@ -11,8 +11,8 @@ function formatDate(date) {
 }
 
 function addTask(){
-  key = formatDate(currentDate);
-  text = dayInput.value.trim();
+  const key = formatDate(currentDate);
+  const text = dayInput.value.trim();
 
   if(!text){return}
 
@@ -32,9 +32,11 @@ function addTask(){
   render();
 }
 
+
+
+
+
 function render(){
-  const storedTasks = localStorage.getItem("tasks");
-  tasks = JSON.parse(storedTasks) || {};
 
   dayList.innerHTML = "";
 
@@ -67,13 +69,15 @@ function render(){
   )
 }
 
-dayInput.addEventListener("keydown", (event) => {
-  if (event.key === "Enter"){
-    addTask();
-  }
-})
 
-dayList.addEventListener("click", (e) => {
+function initEvents(){
+  dayInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter"){
+      addTask();
+    }
+  }) 
+
+  dayList.addEventListener("click", (e) => {
   const button = e.target.closest("button");
   if (!button) return;
 
@@ -82,6 +86,8 @@ dayList.addEventListener("click", (e) => {
 
   const key = formatDate(currentDate);
 
+  if (!tasks[key]) return;
+  
   if (action === "delete") {
     tasks[key] = tasks[key].filter(t => t.id !== id);
   }
@@ -96,5 +102,9 @@ dayList.addEventListener("click", (e) => {
   localStorage.setItem("tasks", JSON.stringify(tasks));
   render();
 });
+}
 
-render()
+export function initDay() {
+  render();
+  initEvents();
+}
