@@ -343,7 +343,6 @@ img {
 .month__item--done, .day__item--done{
   opacity: 0.6;
   text-decoration: line-through;
-  display: none;
 }
 
 .day__check{
