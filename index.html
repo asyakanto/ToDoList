@@ -2,323 +2,324 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>AK ToDoList</title>
 
   <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 
-  <!-- FavIcon-->
+  <!-- FavIcon -->
   <link rel="icon" href="assets/images/favico.jpg">
 
-  <!-- Icons -->
+  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <!-- Fonts -->
+  <!-- Google Fonts: Nunito -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- ========== NAVBAR ========== -->
-<header class="nav">
+<!-- ========== NAVIGATION BAR ========== -->
+<header class="nav" aria-label="Главная навигация">
   <div class="nav__container">
 
-    <input type="checkbox" id="menu-toggle" class="nav__checkbox">
+    <input type="checkbox" id="menu-toggle" class="nav__checkbox" aria-label="Открыть меню">
 
     <div class="nav__top">
-
       <h1 class="nav__title">AK ToDoList</h1>
-
-      <label for="menu-toggle" class="nav__burger">
+      <label for="menu-toggle" class="nav__burger" id="burger-btn" aria-label="Меню">
         <span class="nav__burger--line"></span>
         <span class="nav__burger--line"></span>
         <span class="nav__burger--line"></span>
       </label>
-
     </div>
 
-    <nav class="nav__items">
-
+    <nav class="nav__items" id="nav-menu" aria-label="Дополнительные опции">
       <div class="nav__item">
-        <a href="settings/index.html" class="nav__button" id="settings-btn" data-tooltip="Настройки">
-          <i class="fa-solid fa-gear"></i>
+        <a href="settings/index.html" class="nav__button btn" id="settings-btn" data-tooltip="Настройки">
+          <i class="fa-solid fa-gear btn--icon"></i>
           <span class="nav__text">Настройки</span>
         </a>
       </div>
 
       <div class="nav__item">
-        <button class="nav__button" id="theme-btn" data-tooltip="Тема">
-          <i class="fa-solid fa-moon" id="theme-icon"></i>
+        <button class="nav__button btn" id="theme-btn" data-tooltip="Сменить тему" aria-label="Сменить тему">
+          <i class="fa-solid fa-moon btn--icon" id="theme-icon"></i>
           <span class="nav__text">Тема</span>
         </button>
       </div>
 
       <div class="nav__item nav__item--img">
-        <img src="assets/images/favico.jpg" alt="Logo">
+        <img src="assets/images/favico.jpg" alt="AK ToDoList Logo" id="logo-img">
       </div>
-
     </nav>
-
   </div>
 </header>
 
-<!-- ========== MAIN ========== -->
+<!-- ========== MAIN APPLICATION ========== -->
+<main class="container" id="app">
 
-<main class="container">
+  <!-- ЛЕВАЯ КОЛОНКА: Месяц + День -->
+  <section class="column column--left">
 
-<!-- левая колонка -->
-<section class="column column--left">
-
-
-  <!-- ========== Month ========== -->
-
-  <section class="month" id="month">
-
-    <div class="month__controls">
-      <button class="month__btn" id="month-prev">
-        <i class="fa-solid fa-chevron-left"></i>
-      </button>
-      <h2 class="month__title" id="month-title">Март</h2>
-      <button class="month__btn" id="month-next">
-        <i class="fa-solid fa-chevron-right"></i>
-      </button>
-      <button class="month__btn month__btn--more" id="month-toggle-done" data-tooltip="Показать выполненные">
-        <i class="fa-solid fa-ellipsis"></i>
-      </button>
-    </div>
-
-    <div class="month__input-wrapper">
-      <input 
-        type="text" 
-        class="input month__input" 
-        id="month-input"
-        placeholder="Добавить цель (1_ высокий, 2_ средний...)"
-      >
-    </div>
-
-    <ul class="month__list" id="month-list">
-
-      <!-- высокий приоритет -->
-      <li class="month__item" data-priority="1" data-completed="false">
-        <span class="priority priority--1">1</span>
-        <p class="month__text">Сделать чета тама хзхзхз</p>
-        <div class="month__actions">
-          <button><i class="fa-solid fa-plus"></i></button>
-          <button><i class="fa-solid fa-trash"></i></button>
-        </div>
-      </li>
-
-      <!-- средний -->
-      <li class="month__item" data-priority="2" data-completed="false">
-        <span class="priority priority--2">2</span>
-        <p class="month__text">Чета ещегварлроаорл</p>
-        <div class="month__actions">
-          <button><i class="fa-solid fa-plus"></i></button>
-          <button><i class="fa-solid fa-trash"></i></button>
-        </div>
-      </li>
-
-      <!-- низкий -->
-      <li class="month__item" data-priority="3" data-completed="false">
-        <span class="priority priority--3">3</span>
-        <p class="month__text">Lorem, ipsum dolor.</p>
-        <div class="month__actions">
-          <button><i class="fa-solid fa-plus"></i></button>
-          <button><i class="fa-solid fa-trash"></i></button>
-        </div>
-      </li>
-
-      <!-- ВЫПОЛНЕННАЯ -->
-      <li class="month__item month__item--done" data-priority="2" data-completed="true">
-        <span class="priority priority--2">2</span>
-        <p class="month__text">Lorem ipsum dolor sit amet.</p>
-        <div class="month__actions">
-          <button><i class="fa-solid fa-plus"></i></button>
-          <button><i class="fa-solid fa-trash"></i></button>
-        </div>
-      </li>
-      
-
-      <li class="month__item">
-        <span class="priority priority--1">1</span>
-        <p class="month__text">
-          Очень длинная цель которая проверяет перенос строк и поведение интерфейса при переполнении текста в несколько строк подряд
-        </p>
-        <div class="month__actions">
-          <button><i class="fa-solid fa-plus"></i></button>
-          <button><i class="fa-solid fa-trash"></i></button>
-        </div>
-      </li>
-    </ul>
-
-
-  </section>
-
-  <!-- ========== Day ========== -->
-
-  <section class="day" id="day">
-
-  <div class="day__controls">
-    <button class="day__btn" id="day-prev">
-      <i class="fa-solid fa-chevron-left"></i>
-    </button>
-    <h2 class="day__title" id="day-title">22 Марта</h2>
-    <button class="day__btn" id="day-next">
-      <i class="fa-solid fa-chevron-right"></i>
-    </button>
-    <button class="day__btn day__btn--more" id="day-toggle-done" data-tooltip="Показать выполненные">
-      <i class="fa-solid fa-ellipsis"></i>
-    </button>
-  </div>
-
-  <div class="day__input-wrapper">
-    <input 
-      type="text" 
-      class="input day__input" 
-      id="day-input"
-      placeholder="Добавить задачу"
-    >
-  </div>
-
-  <ul class="day__list" id="day-list">
-    <!-- шаблон -->
-    <li class="day__item" data-completed="false">
-      <button class="day__check">
-        <i class="fa-regular fa-square"></i>
-      </button>
-      <p class="day__text"> Пример задачи на день </p>
-      <div class="day__actions">
-        <button class="day__action-btn">
-          <i class="fa-solid fa-trash"></i>
+    <!-- БЛОК МЕСЯЦ (цели / глобальные задачи) -->
+    <section class="month" id="month" aria-label="Цели на месяц">
+      <div class="month__controls">
+        <button class="month__btn btn btn--icon" id="month-prev" aria-label="Предыдущий месяц">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <h2 class="month__title" id="month-title">Март</h2>
+        <button class="month__btn btn btn--icon" id="month-next" aria-label="Следующий месяц">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        <button class="month__btn month__btn--more btn btn--icon" id="month-toggle-done" data-tooltip="Показать/скрыть выполненные" aria-label="Фильтр выполненных">
+          <i class="fa-solid fa-ellipsis"></i>
         </button>
       </div>
-    </li>
 
-    <li class="day__item day__item--done" data-completed="true">
-    <button class="day__check">
-      <i class="fa-solid fa-check-square"></i>
-    </button>
+      <div class="month__input-wrapper">
+        <input 
+          type="text" 
+          class="input month__input" 
+          id="month-input"
+          placeholder="Добавить цель (1_ высокий, 2_ средний, 3_ низкий)"
+          autocomplete="off"
+        >
+      </div>
 
-    <p class="day__text">бывоалоываролавыло</p>
+      <ul class="month__list" id="month-list">
+        <!-- ШАБЛОН высокий приоритет -->
+        <li class="month__item" data-priority="1" data-completed="false">
+          <span class="priority priority--1">1</span>
+          <p class="month__text">Сделать чета тама хзхзхз</p>
+          <div class="month__actions">
+            <button class="month__action-btn btn btn--icon" data-action="add" aria-label="Добавить в день">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+            <button class="month__action-btn btn btn--icon" data-action="delete" aria-label="Удалить">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </li>
 
-    <div class="day__actions">
-      <button><i class="fa-solid fa-trash"></i></button>
-    </div>
-    </li>
-  </ul>
+        <!-- средний приоритет -->
+        <li class="month__item" data-priority="2" data-completed="false">
+          <span class="priority priority--2">2</span>
+          <p class="month__text">Чета ещегварлроаорл</p>
+          <div class="month__actions">
+            <button class="month__action-btn btn btn--icon" data-action="add">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+            <button class="month__action-btn btn btn--icon" data-action="delete">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </li>
 
+        <!-- низкий приоритет -->
+        <li class="month__item" data-priority="3" data-completed="false">
+          <span class="priority priority--3">3</span>
+          <p class="month__text">Lorem, ipsum dolor.</p>
+          <div class="month__actions">
+            <button class="month__action-btn btn btn--icon" data-action="add">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+            <button class="month__action-btn btn btn--icon" data-action="delete">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </li>
+
+        <!-- ВЫПОЛНЕННАЯ -->
+        <li class="month__item month__item--done" data-priority="2" data-completed="true">
+          <span class="priority priority--2">2</span>
+          <p class="month__text">Lorem ipsum dolor sit amet.</p>
+          <div class="month__actions">
+            <button class="month__action-btn btn btn--icon" data-action="add">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+            <button class="month__action-btn btn btn--icon" data-action="delete">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </li>
+
+        <!-- длинный текст -->
+        <li class="month__item" data-priority="1" data-completed="false">
+          <span class="priority priority--1">1</span>
+          <p class="month__text">
+            Очень длинная цель которая проверяет перенос строк и поведение интерфейса при переполнении текста в несколько строк подряд
+          </p>
+          <div class="month__actions">
+            <button class="month__action-btn btn btn--icon" data-action="add">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+            <button class="month__action-btn btn btn--icon" data-action="delete">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- БЛОК ДЕНЬ (ежедневные задачи) -->
+    <section class="day" id="day" aria-label="Задачи на день">
+      <div class="day__controls">
+        <button class="day__btn btn btn--icon" id="day-prev" aria-label="Предыдущий день">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <h2 class="day__title" id="day-title">22 Марта</h2>
+        <button class="day__btn btn btn--icon" id="day-next" aria-label="Следующий день">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        <button class="day__btn day__btn--more btn btn--icon" id="day-toggle-done" data-tooltip="Показать выполненные задачи" aria-label="Показать выполненные">
+          <i class="fa-solid fa-ellipsis"></i>
+        </button>
+      </div>
+
+      <div class="day__input-wrapper">
+        <input 
+          type="text" 
+          class="input day__input" 
+          id="day-input"
+          placeholder="Добавить задачу на день"
+          autocomplete="off"
+        >
+      </div>
+
+      <ul class="day__list" id="day-list">
+        <!-- ШАБЛОН активной задачи -->
+        <li class="day__item" data-completed="false">
+          <button class="day__check btn btn--icon" data-action="toggle" aria-label="Отметить выполненным">
+            <i class="fa-regular fa-square"></i>
+          </button>
+          <p class="day__text">Пример задачи на день</p>
+          <div class="day__actions">
+            <button class="day__action-btn btn btn--icon" data-action="delete" aria-label="Удалить задачу">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </li>
+
+        <!-- выполненная задача -->
+        <li class="day__item day__item--done" data-completed="true">
+          <button class="day__check btn btn--icon" data-action="toggle" aria-label="Вернуть в активные">
+            <i class="fa-solid fa-check-square"></i>
+          </button>
+          <p class="day__text">бывоалоываролавыло</p>
+          <div class="day__actions">
+            <button class="day__action-btn btn btn--icon" data-action="delete" aria-label="Удалить">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </li>
+      </ul>
+    </section>
   </section>
 
-</section>
+  <!-- ПРАВАЯ КОЛОНКА: Календарь + Привычки -->
+  <section class="column column--right">
 
-<!-- правая колонка -->
-<section class="column column--right">
+    <!-- КАЛЕНДАРЬ с индикаторами задач -->
+    <section class="calendar" id="calendar" aria-label="Календарь событий">
+      <div class="calendar__controls">
+        <button class="calendar__btn btn btn--icon" id="calendar-prev" aria-label="Предыдущий месяц">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <h2 class="calendar__title" id="calendar-title">Март</h2>
+        <button class="calendar__btn btn btn--icon" id="calendar-next" aria-label="Следующий месяц">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
 
-  <!-- ========== Calendar ========== -->
+      <div class="calendar__header">
+        <span>Пн</span>
+        <span>Вт</span>
+        <span>Ср</span>
+        <span>Чт</span>
+        <span>Пт</span>
+        <span>Сб</span>
+        <span>Вс</span>
+      </div>
 
-  <section class="calendar" id="calendar">
-    
-    <div class="calendar__controls">
-      <button class="calendar__btn" id="calendar-prev"><i class="fa-solid fa-chevron-left"></i></button>
-      <h2 class="calendar__title" id="calendar-title">Март</h2>
-      <button class="calendar__btn" id="calendar-next"><i class="fa-solid fa-chevron-right"></i></button>
+      <div class="calendar__grid" id="calendar-grid">
+        <!-- дни -->
+        <div class="calendar__day calendar__day--has-task">1</div>
+        <div class="calendar__day">2</div>
+        <div class="calendar__day">3</div>
+        <div class="calendar__day">4</div>
+        <div class="calendar__day">5</div>
+        <div class="calendar__day">6</div>
+        <div class="calendar__day">7</div>
+        <div class="calendar__day">8</div>
+        <div class="calendar__day">9</div>
+        <div class="calendar__day">10</div>
+        <div class="calendar__day">11</div>
+        <div class="calendar__day">12</div>
+        <div class="calendar__day">13</div>
+        <div class="calendar__day">14</div>
+        <div class="calendar__day">15</div>
+        <div class="calendar__day">16</div>
+        <div class="calendar__day">17</div>
+        <div class="calendar__day">18</div>
+        <div class="calendar__day">19</div>
+        <div class="calendar__day">20</div>
+        <div class="calendar__day">21</div>
+        <div class="calendar__day">22</div>
+        <div class="calendar__day">23</div>
+        <div class="calendar__day">24</div>
+        <div class="calendar__day">25</div>
+        <div class="calendar__day">26</div>
+        <div class="calendar__day">27</div>
+        <div class="calendar__day">28</div>
+        <div class="calendar__day">29</div>
+        <div class="calendar__day">30</div>
+        <div class="calendar__day">31</div>
+      </div>
+    </section>
 
-    </div>
-    
+    <!-- ТРЕКЕР ПРИВЫЧЕК -->
+    <section class="habit" id="habit" aria-label="Трекер привычек">
+      <h2 class="habit__title">Привычки</h2>
 
-    <div class="calendar__header">
-      <span>Пн</span>
-      <span>Вт</span>
-      <span>Ср</span>
-      <span>Чт</span>
-      <span>Пт</span>
-      <span>Сб</span>
-      <span>Вс</span>
-    </div>
+      <div class="habit__input-wrapper">
+        <input 
+          type="text" 
+          class="input habit__input" 
+          id="habit-input"
+          placeholder="Добавить привычку (например: Чтение)"
+          autocomplete="off"
+        >
+      </div>
 
-    <div class="calendar__grid">
-      <div class="calendar__day">1</div>
-      <div class="calendar__day">2</div>
-      <div class="calendar__day">3</div>
-      <div class="calendar__day">4</div>
-      <div class="calendar__day">5</div>
-      <div class="calendar__day">6</div>
-      <div class="calendar__day">7</div>
-      <div class="calendar__day">8</div>
-      <div class="calendar__day">9</div>
-      <div class="calendar__day">10</div>
-      <div class="calendar__day">11</div>
-      <div class="calendar__day">12</div>
-      <div class="calendar__day">13</div>
-      <div class="calendar__day">14</div>
-      <div class="calendar__day">15</div>
-      <div class="calendar__day">16</div>
-      <div class="calendar__day">17</div>
-      <div class="calendar__day">18</div>
-      <div class="calendar__day">19</div>
-      <div class="calendar__day">20</div>
-      <div class="calendar__day">21</div>
-      <div class="calendar__day">22</div>
-      <div class="calendar__day">23</div>
-      <div class="calendar__day">24</div>
-      <div class="calendar__day">25</div>
-      <div class="calendar__day">26</div>
-      <div class="calendar__day">27</div>
-      <div class="calendar__day">28</div>
-      <div class="calendar__day">29</div>
-      <div class="calendar__day">30</div>
-      <div class="calendar__day">31</div>
-    </div>
-    
-  </section>
+      <div class="habit__grid" id="habit-grid">
+        <!-- header -->
+        <div></div>
+        <div>16</div>
+        <div>17</div>
+        <div>18</div>
+        <div>19</div>
+        <div>20</div>
+        <div>21</div>
+        <div>22</div>
 
-
-  <!-- ========== Habit ========== -->
-
-  <section class="habit" id="habit">
-    <h2 class="habit__header">Привычки</h2>
-
-    <div class="habit__input-wrapper">
-      <input 
-        type="text" 
-        class="input habit__input" 
-        id="habit-input"
-        placeholder="Добавить привычку"
-      >
-    </div>
-
-    <div class="habit__grid" id="habit-grid">
-      <div></div>
-      <div>16</div>
-      <div>17</div>
-      <div>18</div>
-      <div>19</div>
-      <div>20</div>
-      <div>21</div>
-      <div>22</div>
-
-
-      <!-- ПРИВЫЧКА -->
-      <div class="habit__name">Спорт</div>
-      <div class="habit__cell"></div>
-      <div class="habit__cell habit__cell--done"></div>
-      <div class="habit__cell"></div>
-      <div class="habit__cell habit__cell--done"></div>
-      <div class="habit__cell"></div>
-      <div class="habit__cell habit__cell--done"></div>
-      <div class="habit__cell"></div>
-    </div>
+        <!-- ШАБЛОН привычки Спорт -->
+        <div class="habit__name">Спорт</div>
+        <div class="habit__cell"></div>
+        <div class="habit__cell habit__cell--done"></div>
+        <div class="habit__cell"></div>
+        <div class="habit__cell habit__cell--done"></div>
+        <div class="habit__cell"></div>
+        <div class="habit__cell habit__cell--done"></div>
+        <div class="habit__cell"></div>
+      </div>
+    </section>
 
   </section>
-
-</section>
-
 </main>
 
-
-  <!--JS Link-->
 <script src="JS/index.js"></script>
 </body>
 </html>
