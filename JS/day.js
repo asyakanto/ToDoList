@@ -1,4 +1,4 @@
-// =============================================== //
+// ==============Variables======================== //
 
 import {formatDate, escapeHtml, formatDisplayDate} from './utils.js';
 
@@ -12,7 +12,7 @@ const toPrev = document.getElementById("day-prev");
 let hideCompleted = JSON.parse(localStorage.getItem("hideCompleted")) || false;
 let tasks = JSON.parse(localStorage.getItem("dayTasks")) || {};
 
-// =============================================== //
+// ==============Date============================= //
 
 function getCurrentRealDate() {
   let now = new Date();
@@ -40,7 +40,7 @@ function updateDayTitle() {
   }
 }
 
-// =============================================== //
+// =================Controls====================== //
 
 function goToPrevDay() {
   currentDate.setDate(currentDate.getDate() - 1);
@@ -63,10 +63,9 @@ function goToNextDay() {
   render();
 }
 
-// =============================================== //
+// ================Toggle btn===================== //
 
 function updateToggleBtn () {
-
   const icon = toggleBtn.querySelector("i");
   icon.className = hideCompleted ? "fa-solid fa-eye-slash" : "fa-solid fa-eye";
 }
@@ -79,7 +78,7 @@ function toggleHide() {
   render();
 }
 
-// =============================================== //
+// =================add task====================== //
 
 function addTask() {
   const text = dayInput.value.trim();
@@ -100,7 +99,7 @@ function addTask() {
   render();
 }
 
-// =============================================== //
+// ================render========================= //
 
 function render() {
   dayList.innerHTML = "";
@@ -147,7 +146,7 @@ function render() {
   })
 }
 
-// =============================================== //
+// ===============list item clicks================ //
 
 function handleListClick (event) {
   const btn = event.target.closest("button");
@@ -171,7 +170,23 @@ function handleListClick (event) {
   render();
 }
 
-// =============================================== //
+// ===================Add from months============= //
+
+export function addFromMonth (text) {
+  const key = formatDate(currentDate);
+  if (!tasks[key]) tasks[key] = [];
+
+  tasks[key].push({
+    id: Date.now(),
+    text: text,
+    completed: false,
+  })
+
+  localStorage.setItem("dayTasks", JSON.stringify(tasks));
+  render();
+}
+
+// =================init========================== //
 
 
 export function initDay() {

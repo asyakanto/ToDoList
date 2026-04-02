@@ -70,12 +70,12 @@
         <button class="month__btn btn btn--icon" id="month-prev" aria-label="Предыдущий месяц">
           <i class="fa-solid fa-chevron-left"></i>
         </button>
-        <h2 class="month__title" id="month-title">Март</h2>
+        <h2 class="month__title" id="month-title"></h2>
+        <button class="month__btn month__btn--more btn btn--icon" id="month-toggle-done" data-tooltip="Показать/скрыть выполненные" aria-label="Фильтр выполненных">
+          <i class="fa-solid fa-eye"></i>
+        </button>
         <button class="month__btn btn btn--icon" id="month-next" aria-label="Следующий месяц">
           <i class="fa-solid fa-chevron-right"></i>
-        </button>
-        <button class="month__btn month__btn--more btn btn--icon" id="month-toggle-done" data-tooltip="Показать/скрыть выполненные" aria-label="Фильтр выполненных">
-          <i class="fa-solid fa-ellipsis"></i>
         </button>
       </div>
 
@@ -89,79 +89,7 @@
         >
       </div>
 
-      <ul class="month__list" id="month-list">
-        <!-- ШАБЛОН высокий приоритет -->
-        <li class="month__item" data-priority="1" data-completed="false">
-          <span class="priority priority--1">1</span>
-          <p class="month__text">Сделать чета тама хзхзхз</p>
-          <div class="month__actions">
-            <button class="month__action-btn btn btn--icon" data-action="add" aria-label="Добавить в день">
-              <i class="fa-solid fa-plus"></i>
-            </button>
-            <button class="month__action-btn btn btn--icon" data-action="delete" aria-label="Удалить">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </li>
-
-        <!-- средний приоритет -->
-        <li class="month__item" data-priority="2" data-completed="false">
-          <span class="priority priority--2">2</span>
-          <p class="month__text">Чета ещегварлроаорл</p>
-          <div class="month__actions">
-            <button class="month__action-btn btn btn--icon" data-action="add">
-              <i class="fa-solid fa-plus"></i>
-            </button>
-            <button class="month__action-btn btn btn--icon" data-action="delete">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </li>
-
-        <!-- низкий приоритет -->
-        <li class="month__item" data-priority="3" data-completed="false">
-          <span class="priority priority--3">3</span>
-          <p class="month__text">Lorem, ipsum dolor.</p>
-          <div class="month__actions">
-            <button class="month__action-btn btn btn--icon" data-action="add">
-              <i class="fa-solid fa-plus"></i>
-            </button>
-            <button class="month__action-btn btn btn--icon" data-action="delete">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </li>
-
-        <!-- ВЫПОЛНЕННАЯ -->
-        <li class="month__item month__item--done" data-priority="2" data-completed="true">
-          <span class="priority priority--2">2</span>
-          <p class="month__text">Lorem ipsum dolor sit amet.</p>
-          <div class="month__actions">
-            <button class="month__action-btn btn btn--icon" data-action="add">
-              <i class="fa-solid fa-plus"></i>
-            </button>
-            <button class="month__action-btn btn btn--icon" data-action="delete">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </li>
-
-        <!-- длинный текст -->
-        <li class="month__item" data-priority="1" data-completed="false">
-          <span class="priority priority--1">1</span>
-          <p class="month__text">
-            Очень длинная цель которая проверяет перенос строк и поведение интерфейса при переполнении текста в несколько строк подряд
-          </p>
-          <div class="month__actions">
-            <button class="month__action-btn btn btn--icon" data-action="add">
-              <i class="fa-solid fa-plus"></i>
-            </button>
-            <button class="month__action-btn btn btn--icon" data-action="delete">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </li>
-      </ul>
+      <ul class="month__list" id="month-list"></ul>
     </section>
 
     <!-- БЛОК ДЕНЬ (ежедневные задачи) -->

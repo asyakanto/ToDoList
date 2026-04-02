@@ -15,3 +15,13 @@ export function formatDisplayDate(date) {
   ];
   return `${date.getDate()} ${months[date.getMonth()]}`;
 }
+
+export function getMonthKey(date){
+  return `${date.getFullYear()}-${date.getMonth()+1}`
+}
+
+export function formatDisplayMonth (date){
+    const months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", 
+                  "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+    return months[date.getMonth()] + ' ' + date.getFullYear();
+}
