@@ -207,6 +207,7 @@ body.light {
     font-size: 0.9rem;
     padding: 10px;
     text-align: center;
+    width: 45px;
   }
   .nav__item--img{
     display: block;
@@ -219,7 +220,9 @@ body.light {
   }
   .nav__button i{
     font-size: 1.4rem;
+
   }
+
 }
 
 /*=========Main===============*/
