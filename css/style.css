@@ -241,17 +241,38 @@ img {
 
 /*=========Controls===========*/
 .month__controls, .day__controls, .calendar__controls{
-  display: flex;
+  display: grid;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
   margin-bottom: 15px;
+  grid-template-columns: auto 1fr auto auto;
 }
+
+.calendar__controls {
+  grid-template-columns: auto 1fr auto;
+}
+
 .day__title, .month__title, .calendar__title{
-  flex: 1;
   text-align: center;
   font-size: 1.4rem;
   font-weight: 600;
   letter-spacing: 0.5px;
+  transition: var(--transition);
+  user-select: none;
+  margin: 0;
+  padding: 0 10px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.month__title:hover, .day__title:hover, .calendar__title:hover {
+  color: var(--accent);
+  background-color: var(--bg-hover);
+  transform: scale(1.02);
+}
+
+.month__title:active, .day__title:active, .calendar__title:active {
+  transform: scale(0.98);
 }
 
 .month__btn, .day__btn, .calendar__btn{
@@ -261,9 +282,18 @@ img {
   font-size: 1.5rem;
   cursor: pointer;
   transition: var(--transition);
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
 }
-.month__btn:hover, .day__btn:hover, .calendar__btn:hover{
+
+.month__btn:hover, .day__btn:hover, .calendar__btn:hover {
   color: var(--accent);
+  background-color: var(--bg-hover);
   transform: translateY(-1px) scale(1.05);
 }
 
