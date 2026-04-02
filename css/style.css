@@ -265,7 +265,7 @@ img {
   border-radius: var(--radius-sm);
 }
 
-.month__title:hover, .day__title:hover, .calendar__title:hover {
+.day__title--clickable:hover, .month__title--clickable:hover, .calendar__title--clickable:hover {
   color: var(--accent);
   background-color: var(--bg-hover);
   transform: scale(1.02);
