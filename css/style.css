@@ -523,6 +523,11 @@ body.light {
   border-radius: 50%;
 }
 
+.calendar__day--today {
+  border: 2px solid var(--accent);
+  font-weight: bold;
+}
+
 /* ====================Habit======================= */
 
 .habit__title {
