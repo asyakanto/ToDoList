@@ -71,6 +71,7 @@ function clickOnDay(dateStr) {
   currentDate = dateStr;
   updateDiaryTitle();
   render();
+  initCalendar(clickOnDay, currentDate);
   // Обновляем URL без перезагрузки страницы
   window.history.pushState({}, "", `?date=${dateStr}`);
 }
@@ -87,7 +88,7 @@ function initDiary() {
   diaryGoals.addEventListener("blur", () => saveField("goals", diaryGoals.value));
   
   // календарь с колбэком для переключения дня
-  initCalendar(clickOnDay);
+  initCalendar(clickOnDay, currentDate);
 }
 
 initDiary();

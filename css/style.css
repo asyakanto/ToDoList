@@ -628,6 +628,12 @@ body.light {
   color: var(--accent);
 }
 
+.calendar__day--active {
+  border: 2px solid var(--accent);
+  background-color: var(--accent-glow);
+  font-weight: bold;
+}
+
 @media (max-width: 500px) {
   .calendar__grid {
     gap: 4px;

@@ -51,6 +51,7 @@ function render() {
     const emptyMessage = document.createElement("div");
     emptyMessage.className = "habit__empty";
     emptyMessage.textContent = "Добавьте привычку🎀";
+    emptyMessage.addEventListener("click", () => habitInput.focus());
     habitGrid.appendChild(emptyMessage);
     return;
   }

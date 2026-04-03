@@ -169,6 +169,7 @@ function render() {
         ${hideMonthCompleted ? "Нет активных задач ✨" : "Нет задач на этот месяц 🎉"}
       </p>
     `;
+    emptyMessage.addEventListener("click", () => monthInput.focus());
     monthList.appendChild(emptyMessage);
     return;
   }

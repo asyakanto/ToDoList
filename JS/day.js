@@ -162,6 +162,7 @@ function render() {
         ${hideCompleted ? "Нет активных задач ✨" : "Нет задач на этот день 🎉"}
       </p>
     `;
+    emptyMessage.addEventListener("click", () => dayInput.focus());
     dayList.appendChild(emptyMessage);
     return;
   }

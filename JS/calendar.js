@@ -20,6 +20,7 @@ const diaryEntries = JSON.parse(localStorage.getItem("diaryEntries")) || {};
  * @returns {boolean} true если есть хотя бы одно непустое поле
  */
 function hasDiaryEntry(dateStr) {
+  const diaryEntries = JSON.parse(localStorage.getItem("diaryEntries")) || {};
   const entry = diaryEntries[dateStr];
   if (!entry) return false;
   return (entry.mood?.length > 0) || (entry.events?.length > 0) || (entry.goals?.length > 0);
@@ -29,6 +30,8 @@ function hasDiaryEntry(dateStr) {
 
 // Текущий отображаемый месяц
 let currentDate = new Date();
+
+let highlightedDate = null;
 
 // ====================Date helpers================ //
 
@@ -63,7 +66,7 @@ function numberOfDaysThisMonth() {
  *   - Если передан: вызывается с датой (для страницы дневника)
  *   - Если не передан: переход на страницу дневника (для главной страницы)
  */
-function render(onDayClick) {
+function render(onDayClick, highlightDate) {
   calGrid.innerHTML = "";
   const today = new Date();
 
@@ -92,6 +95,12 @@ function render(onDayClick) {
 
     // Формируем дату в формате "2024-03-22"
     const dateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+
+    // подсвечиваем открытую дату в дневнике
+    if (highlightDate && dateStr === highlightDate) {
+      dayElement.classList.add("calendar__day--active");  // специальный класс
+    }
+
 
     // Обработчик клика по дню
     dayElement.addEventListener("click", () => {
@@ -139,7 +148,7 @@ function toPrevMonth() {
   const month = currentDate.getMonth();
   currentDate = new Date(year, month - 1, 1);
   updateCalTitle();
-  render();  // Без колбэка, так как навигация не должна менять поведение
+  render(undefined, highlightedDate);  // Без колбэка, так как навигация не должна менять поведение
 }
 
 /**
@@ -150,7 +159,7 @@ function toNextMonth() {
   const month = currentDate.getMonth();
   currentDate = new Date(year, month + 1, 1);
   updateCalTitle();
-  render();
+  render(undefined, highlightedDate);
 }
 
 /**
@@ -160,7 +169,7 @@ function goToCurrentMonth() {
   if (isCurrentMonthReal()) return;
   currentDate = new Date();
   updateCalTitle();
-  render();
+  render(undefined, highlightedDate);
 }
 
 // ====================Init======================== //
@@ -169,9 +178,9 @@ function goToCurrentMonth() {
  * Инициализирует календарь
  * @param {Function} onDayClick - опциональный колбэк для клика по дню
  */
-export function initCalendar(onDayClick) {
+export function initCalendar(onDayClick, highlightedDate) {
   updateCalTitle();
-  render(onDayClick);
+  render(onDayClick, highlightedDate);
 
   toPrev.addEventListener("click", toPrevMonth);
   toNext.addEventListener("click", toNextMonth);
