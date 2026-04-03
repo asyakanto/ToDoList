@@ -5,6 +5,7 @@ import { formatDate } from './utils.js';
 const habitInput = document.getElementById("habit-input");
 const habitGrid = document.getElementById("habit-grid");
 
+// Все цели по названию [{id, name, entries: {"2026-04-03" : true, ...}}, {...}]
 let habits = JSON.parse(localStorage.getItem("habits")) || [];
 
 // ==============Days logic======================== //

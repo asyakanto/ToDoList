@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>AK ToDoList</title>
+  <title>Doable</title>
 
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
@@ -11,10 +11,10 @@
   <!-- FavIcon -->
   <link rel="icon" href="assets/images/favico.jpg">
 
-  <!-- Font Awesome Icons (иконки) -->
+  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <!-- Google Fonts: Nunito (шрифт) -->
+  <!-- Google Fonts: Nunito -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
@@ -29,9 +29,9 @@
     <input type="checkbox" id="menu-toggle" class="nav__checkbox" aria-label="Открыть меню">
 
     <div class="nav__top">
-      <h1 class="nav__title">AK ToDoList</h1>
-      <!-- Бургер-иконка (мобильное меню) -->
-      <label for="menu-toggle" class="nav__burger" id="burger-btn" aria-label="Меню">
+      <h1 class="nav__title">Doable</h1>
+      <!-- Бургер-иконка -->
+      <label for="menu-toggle" class="nav__burger" id="burger-btn" aria-label="Открыть меню">
         <span class="nav__burger--line"></span>
         <span class="nav__burger--line"></span>
         <span class="nav__burger--line"></span>
@@ -39,11 +39,18 @@
     </div>
 
     <!-- Меню навигации -->
-    <nav class="nav__items" id="nav-menu" aria-label="Дополнительные опции">
+    <nav class="nav__items" id="nav-menu">
       <div class="nav__item">
-        <a href="settings.html" class="nav__button btn" id="settings-btn" data-tooltip="Настройки">
+        <a href="settings.html" class="nav__button btn" id="settings-btn" aria-label="Открыть Настройки">
           <i class="fa-solid fa-gear btn--icon"></i>
           <span class="nav__text">Настройки</span>
+        </a>
+      </div>
+
+      <div class="nav__item">
+        <a href="diary.html" class="nav__button btn" id="settings-btn" aria-label="Открыть Дневник">
+          <i class="fa-solid fa-book btn--icon"></i>
+          <span class="nav__text">Дневник</span>
         </a>
       </div>
 
@@ -54,15 +61,15 @@
         </button>
       </div>
 
-      <div class="nav__item nav__item--img">
-        <img src="assets/images/favico.jpg" alt="AK ToDoList Logo" id="logo-img">
+      <div class="nav__item nav__item--img" aria-label="Логотип Сайта">
+        <img src="assets/images/favico.jpg" alt="Doable Лого">
       </div>
     </nav>
   </div>
 </header>
 
 <!-- ====================MAIN APPLICATION================== -->
-<main class="container" id="app">
+<main class="container">
 
   <!-- ==========ЛЕВАЯ КОЛОНКА: Месяц + День========== -->
   <section class="column column--left">
@@ -73,8 +80,8 @@
         <button class="month__btn btn btn--icon" id="month-prev" aria-label="Предыдущий месяц">
           <i class="fa-solid fa-chevron-left"></i>
         </button>
-        <h2 class="month__title" id="month-title"></h2>
-        <button class="month__btn month__btn--more btn btn--icon" id="month-toggle-done" data-tooltip="Показать/скрыть выполненные" aria-label="Фильтр выполненных">
+        <h2 class="month__title" id="month-title" aria-label="Текущий месяц"></h2>
+        <button class="month__btn month__btn--more btn btn--icon" id="month-toggle-done" aria-label="Показать/скрыть выполненные">
           <i class="fa-solid fa-eye"></i>
         </button>
         <button class="month__btn btn btn--icon" id="month-next" aria-label="Следующий месяц">
@@ -89,6 +96,7 @@
           id="month-input"
           placeholder="Добавить цель (1_ высокий, 2_ средний, 3_ низкий)"
           autocomplete="off"
+          aria-label="Добавить цель (1_ высокий, 2_ средний, 3_ низкий)"
         >
       </div>
 
@@ -101,8 +109,8 @@
         <button class="day__btn btn btn--icon" id="day-prev" aria-label="Предыдущий день">
           <i class="fa-solid fa-chevron-left"></i>
         </button>
-        <h2 class="day__title" id="day-title"></h2>
-        <button class="day__btn day__btn--more btn btn--icon" id="day-toggle-done" data-tooltip="Показать выполненные задачи" aria-label="Показать выполненные">
+        <h2 class="day__title" id="day-title" aria-label="Текущий день"></h2>
+        <button class="day__btn day__btn--more btn btn--icon" id="day-toggle-done" aria-label="Показать выполненные задачи">
           <i class="fa-solid fa-eye"></i>
         </button>
         <button class="day__btn btn btn--icon" id="day-next" aria-label="Следующий день">
@@ -117,6 +125,7 @@
           id="day-input"
           placeholder="Добавить задачу на день"
           autocomplete="off"
+          aria-label="Добавить задачу на день"
         >
       </div>
 
@@ -133,7 +142,7 @@
         <button class="calendar__btn btn btn--icon" id="calendar-prev" aria-label="Предыдущий месяц">
           <i class="fa-solid fa-chevron-left"></i>
         </button>
-        <h2 class="calendar__title" id="calendar-title"></h2>
+        <h2 class="calendar__title" id="calendar-title" aria-label="Текущий месяц"></h2>
         <button class="calendar__btn btn btn--icon" id="calendar-next" aria-label="Следующий месяц">
           <i class="fa-solid fa-chevron-right"></i>
         </button>
@@ -141,13 +150,7 @@
 
       <!-- Заголовки дней недели -->
       <div class="calendar__header">
-        <span>Пн</span>
-        <span>Вт</span>
-        <span>Ср</span>
-        <span>Чт</span>
-        <span>Пт</span>
-        <span>Сб</span>
-        <span>Вс</span>
+        <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span>
       </div>
 
       <!-- Сетка с числами дней -->
@@ -166,17 +169,18 @@
           id="habit-input"
           placeholder="Добавить привычку (например: Чтение)"
           autocomplete="off"
+          aria-label="Добавить привычку"
         >
       </div>
 
-      <!-- Сетка привычек (заполняется динамически) -->
+      <!-- Сетка привычек -->
       <div class="habit__grid" id="habit-grid"></div>
     </section>
 
   </section>
 </main>
 
-<!-- Подключение основного JS файла (модуль) -->
+<!-- Подключение основного JS файла -->
 <script type="module" src="JS/main.js"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@ const diaryGoals = document.getElementById("diary-goals");    // Поле "Це�
 
 // ====================Data========================= //
 
-// Все заметки из localStorage: { "2024-03-22": { mood, events, goals } }
+// = {"2024-03-22": {mood: "счастлив 😊", events: "Встретился с друзьями, сходил в кино", goals: "Сделал зарядку, прочитал 50 страниц"}, "2024-03-23": {...}, ...}
 let diaryEntries = JSON.parse(localStorage.getItem("diaryEntries")) || {};
 // Текущая открытая дата
 let currentDate = null;
@@ -77,26 +77,18 @@ function clickOnDay(dateStr) {
 
 // ====================Init========================= //
 
-/**
- * Инициализирует страницу дневника
- */
 function initDiary() {
-  // 1. Получаем дату из URL или сегодняшнюю
   currentDate = getDateFromURL();
-  
-  // 2. Обновляем заголовок и поля
   updateDiaryTitle();
   render();
   
-  // 3. Настраиваем автосохранение при потере фокуса
   diaryMood.addEventListener("blur", () => saveField("mood", diaryMood.value));
   diaryEvents.addEventListener("blur", () => saveField("events", diaryEvents.value));
   diaryGoals.addEventListener("blur", () => saveField("goals", diaryGoals.value));
   
-  // 4. Запускаем календарь с колбэком для переключения дня
+  // календарь с колбэком для переключения дня
   initCalendar(clickOnDay);
 }
 
-// Запускаем всё!
 initDiary();
-initTheme();    // Тема оформления (светлая/темная) + сохранение
+initTheme();

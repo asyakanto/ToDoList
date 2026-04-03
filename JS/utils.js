@@ -1,10 +1,9 @@
 // ==================Format date===================== //
 
 /**
- * Форматирует дату в формат ГГГГ-ММ-ДД для ключей в localStorage
+ * Форматирует дату для ключа в localStorage
  * @param {Date} date - объект даты
- * @returns {string} дата в формате "2024-03-22"
- * @example formatDate(new Date(2024, 2, 22)) // "2024-03-22"
+ * @returns {string} "2024-03-22"
  */
 export function formatDate(date) {
   return date.toISOString().split('T')[0];
@@ -13,25 +12,22 @@ export function formatDate(date) {
 // ==================Escape HTML===================== //
 
 /**
- * Экранирует HTML-символы для защиты от XSS атак
- * Превращает < > & " в безопасные HTML-сущности
- * @param {string} text - текст для экранирования
- * @returns {string} безопасный текст с экранированными символами
- * @example escapeHtml('<script>alert("xss")</script>') // "&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;"
+ * Защита от XSS атак - экранирует спецсимволы HTML
+ * @param {string} text - текст для защиты
+ * @returns {string} безопасный текст
  */
 export function escapeHtml(text) {
   const div = document.createElement('div');
-  div.textContent = text;      // устанавливаем как текст (безопасно)
-  return div.innerHTML;        // получаем экранированную версию
+  div.textContent = text;
+  return div.innerHTML;
 }
 
 // ==================Display date==================== //
 
 /**
- * Форматирует дату для отображения в блоке "День"
+ * Форматирует дату для блока "День"
  * @param {Date} date - объект даты
- * @returns {string} дата в формате "22 Марта"
- * @example formatDisplayDate(new Date(2024, 2, 22)) // "22 Марта"
+ * @returns {string} "22 Марта"
  */
 export function formatDisplayDate(date) {
   const months = [
@@ -44,10 +40,9 @@ export function formatDisplayDate(date) {
 // ==================Month key======================= //
 
 /**
- * Формирует ключ для месяца в формате ГГГГ-М (без ведущего нуля)
+ * Формирует ключ для месяца
  * @param {Date} date - объект даты
- * @returns {string} ключ месяца в формате "2024-3"
- * @example getMonthKey(new Date(2024, 2, 22)) // "2024-3"
+ * @returns {string} "2024-3"
  */
 export function getMonthKey(date) {
   return `${date.getFullYear()}-${date.getMonth() + 1}`;
@@ -56,10 +51,9 @@ export function getMonthKey(date) {
 // ==================Display month=================== //
 
 /**
- * Форматирует дату для отображения в блоке "Месяц"
+ * Форматирует дату для блока "Месяц"
  * @param {Date} date - объект даты
- * @returns {string} дата в формате "Март 2024"
- * @example formatDisplayMonth(new Date(2024, 2, 22)) // "Март 2024"
+ * @returns {string} "Март 2024"
  */
 export function formatDisplayMonth(date) {
   const months = [
@@ -69,11 +63,20 @@ export function formatDisplayMonth(date) {
   return `${months[date.getMonth()]} ${date.getFullYear()}`;
 }
 
+// ==================Absolute date=================== //
 
+/**
+ * Форматирует строку даты "2024-03-22" в читаемый вид
+ * @param {string} dateStr - дата в формате "2024-03-22"
+ * @returns {string} "22 Марта 2024"
+ */
 export function formatDisplayAbsoluteDate(dateStr) {
   const months = [
     "Января", "Февраля", "Марта", "Апреля", "Мая", "Июня",
     "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"
   ];
-  return `${dateStr.slice(8)} ${months[Number(dateStr.slice(5,7)-1)]} ${dateStr.slice(0,4)}`;
+  const day = dateStr.slice(8);           // "22"
+  const month = Number(dateStr.slice(5,7)) - 1;  // 3 -> индекс 2 (Марта)
+  const year = dateStr.slice(0,4);         // "2024"
+  return `${day} ${months[month]} ${year}`;
 }

@@ -15,11 +15,9 @@ let lightTheme = JSON.parse(localStorage.getItem("theme")) || false;
  */
 function updateTheme() {
   if (lightTheme) {
-    // Светлая тема: добавляем класс light, иконка солнца
     body.classList.add("light");
     icon.className = "fa-solid fa-sun btn--icon";
   } else {
-    // Темная тема: убираем класс light, иконка луны
     body.classList.remove("light");
     icon.className = "fa-solid fa-moon btn--icon";
   }
