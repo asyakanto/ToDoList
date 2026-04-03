@@ -7,6 +7,7 @@
   --text: #e0e0e0;            /* Цвет текста */
   --accent: #7c5cff;          /* Акцентный цвет (фиолетовый) */
   --border: #2a2a2a;          /* Цвет границ */
+  --input-glow: #7c5cff4d;
 
   --priority-1: #e25f5f;      /* Высокий приоритет (красный) */
   --priority-2: #d29e1d;      /* Средний приоритет (оранжевый) */
@@ -93,6 +94,11 @@ body.light {
 .nav__title:hover {
   color: var(--accent);
   scale: 1.02;
+}
+
+.nav__title--link{
+  color: var(--text);
+  text-decoration: none;
 }
 
 /* BURGER (мобильное меню) */
@@ -616,7 +622,7 @@ body.light {
 
 .input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(124, 92, 255, 0.3);
+  box-shadow: 0 0 0 2px var(--input-glow);
   background: var(--bg-hover);
 }
 
@@ -671,4 +677,80 @@ button:active {
 button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+/* ====================Diary Page==================== */
+.diary__container{
+  width: min(100%, 1500px);
+  margin: 0 auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 850px) {
+  .diary__container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+  }
+}
+
+.diary__calendar {
+  background-color: var(--bg-secondary);
+  padding: 15px;
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 1px var(--border);
+  align-self: start;
+  width: 100%;
+}
+.diary {
+  background-color: var(--bg-secondary);
+  padding: 20px;
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 1px var(--border);
+}
+.diary__date {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.diary__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.diary__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.diary__label {
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.diary__textarea {
+  padding: 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background-color: var(--bg);
+  color: var(--text);
+  font-size: 1rem;
+  resize: vertical;
+  transition: var(--transition);
+}
+
+.diary__textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--input-glow);
+}
+.diary__textarea::placeholder {
+  color: var(--priority-3);
+  opacity: 0.7;
 }

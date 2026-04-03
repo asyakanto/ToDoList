@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AK ToDoList - Diary</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- FavIcon -->
+  <link rel="icon" href="assets/images/favico.jpg">
+
+  <!-- Font Awesome Icons (иконки) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Google Fonts: Nunito (шрифт) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="nav" aria-label="Главная навигация">
+  <div class="nav__container">
+
+    <!-- Чекбокс для управления мобильным меню -->
+    <input type="checkbox" id="menu-toggle" class="nav__checkbox" aria-label="Открыть меню">
+
+    <div class="nav__top">
+      <a href="./index.html" class="nav__title--link">
+        <h1 class="nav__title">AK ToDoList</h1>
+      </a>
+      <!-- Бургер-иконка (мобильное меню) -->
+      <label for="menu-toggle" class="nav__burger" id="burger-btn" aria-label="Меню">
+        <span class="nav__burger--line"></span>
+        <span class="nav__burger--line"></span>
+        <span class="nav__burger--line"></span>
+      </label>
+    </div>
+
+    <!-- Меню навигации -->
+    <nav class="nav__items" id="nav-menu" aria-label="Дополнительные опции">
+      <div class="nav__item">
+        <a href="settings.html" class="nav__button btn" id="settings-btn" data-tooltip="Настройки">
+          <i class="fa-solid fa-gear btn--icon"></i>
+          <span class="nav__text">Настройки</span>
+        </a>
+      </div>
+
+      <div class="nav__item">
+        <button class="nav__button btn" id="theme-btn" data-tooltip="Сменить тему" aria-label="Сменить тему">
+          <i class="fa-solid fa-moon btn--icon" id="theme-icon"></i>
+          <span class="nav__text">Тема</span>
+        </button>
+      </div>
+
+      <div class="nav__item nav__item--img">
+        <img src="assets/images/favico.jpg" alt="AK ToDoList Logo" id="logo-img">
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="diary__container">
+  <!-- ДНЕВНИК -->
+   <div class="diary">
+    <div class="diary__header">
+      <h2 class="diary__date" id="diary-date">22 марта 2026</h2>
+    </div>
+
+    <div class="diary__fields">
+      <!-- Поле 1: Эмоции -->
+      <div class="diary__field">
+      <label for="diary-mood" class="diary__label">
+        <span>😊</span> Эмоции и настроение
+      </label>
+      <textarea id="diary-mood" class="diary__textarea" rows="3" placeholder="Что ты чувствуешь сегодня?"></textarea>
+      </div>
+
+      <!-- Поле 2: События -->
+      <div class="diary__field">
+        <label class="diary__label" for="diary-events">
+          <span>📅</span> События дня
+        </label>
+        <textarea class="diary__textarea" id="diary-events" rows="5" 
+                  placeholder="Что произошло сегодня?"></textarea>
+      </div>
+
+      <!-- Поле 3: Цели -->
+      <div class="diary__field">
+        <label class="diary__label" for="diary-goals">
+          <span>🎯</span> Цели и дела
+        </label>
+        <textarea class="diary__textarea" id="diary-goals" rows="4" 
+                  placeholder="Что планировал/сделал?"></textarea>
+      </div>
+    </div>
+   </div>
+
+  <!-- КАЛЕНДАРЬ -->
+  <div class="diary__calendar">
+    <div class="calendar__controls">
+      <button class="calendar__btn btn btn--icon" id="calendar-prev">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <h2 class="calendar__title" id="calendar-title"></h2>
+      <button class="calendar__btn btn btn--icon" id="calendar-next">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <div class="calendar__header">
+      <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span>
+      <span>Пт</span><span>Сб</span><span>Вс</span>
+    </div>
+
+    <div class="calendar__grid" id="calendar-grid"></div>
+  </div>
+</main>
+
+<script type="module" src="JS/diary.js"></script>
+</body>
+</html>
