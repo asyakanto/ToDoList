@@ -11,24 +11,26 @@
   <!-- FavIcon -->
   <link rel="icon" href="assets/images/favico.jpg">
 
-  <!-- Font Awesome Icons -->
+  <!-- Font Awesome Icons (иконки) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <!-- Google Fonts: Nunito -->
+  <!-- Google Fonts: Nunito (шрифт) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<!-- ========== NAVIGATION BAR ========== -->
+<!-- ====================NAVIGATION BAR==================== -->
 <header class="nav" aria-label="Главная навигация">
   <div class="nav__container">
 
+    <!-- Чекбокс для управления мобильным меню -->
     <input type="checkbox" id="menu-toggle" class="nav__checkbox" aria-label="Открыть меню">
 
     <div class="nav__top">
       <h1 class="nav__title">AK ToDoList</h1>
+      <!-- Бургер-иконка (мобильное меню) -->
       <label for="menu-toggle" class="nav__burger" id="burger-btn" aria-label="Меню">
         <span class="nav__burger--line"></span>
         <span class="nav__burger--line"></span>
@@ -36,6 +38,7 @@
       </label>
     </div>
 
+    <!-- Меню навигации -->
     <nav class="nav__items" id="nav-menu" aria-label="Дополнительные опции">
       <div class="nav__item">
         <a href="settings.html" class="nav__button btn" id="settings-btn" data-tooltip="Настройки">
@@ -58,10 +61,10 @@
   </div>
 </header>
 
-<!-- ========== MAIN APPLICATION ========== -->
+<!-- ====================MAIN APPLICATION================== -->
 <main class="container" id="app">
 
-  <!-- ЛЕВАЯ КОЛОНКА: Месяц + День -->
+  <!-- ==========ЛЕВАЯ КОЛОНКА: Месяц + День========== -->
   <section class="column column--left">
 
     <!-- БЛОК МЕСЯЦ (цели / глобальные задачи) -->
@@ -121,7 +124,7 @@
     </section>
   </section>
 
-  <!-- ПРАВАЯ КОЛОНКА: Календарь + Привычки -->
+  <!-- ==========ПРАВАЯ КОЛОНКА: Календарь + Привычки========== -->
   <section class="column column--right">
 
     <!-- КАЛЕНДАРЬ с индикаторами задач -->
@@ -136,6 +139,7 @@
         </button>
       </div>
 
+      <!-- Заголовки дней недели -->
       <div class="calendar__header">
         <span>Пн</span>
         <span>Вт</span>
@@ -146,8 +150,9 @@
         <span>Вс</span>
       </div>
 
+      <!-- Сетка с числами дней -->
       <div class="calendar__grid" id="calendar-grid">
-        <!-- дни -->
+        <!-- дни будут генерироваться динамически -->
         <div class="calendar__day calendar__day--has-task">1</div>
         <div class="calendar__day">2</div>
         <div class="calendar__day">3</div>
@@ -196,32 +201,14 @@
         >
       </div>
 
-      <div class="habit__grid" id="habit-grid">
-        <!-- header -->
-        <div></div>
-        <div>16</div>
-        <div>17</div>
-        <div>18</div>
-        <div>19</div>
-        <div>20</div>
-        <div>21</div>
-        <div>22</div>
-
-        <!-- ШАБЛОН привычки Спорт -->
-        <div class="habit__name">Спорт</div>
-        <div class="habit__cell"></div>
-        <div class="habit__cell habit__cell--done"></div>
-        <div class="habit__cell"></div>
-        <div class="habit__cell habit__cell--done"></div>
-        <div class="habit__cell"></div>
-        <div class="habit__cell habit__cell--done"></div>
-        <div class="habit__cell"></div>
-      </div>
+      <!-- Сетка привычек (заполняется динамически) -->
+      <div class="habit__grid" id="habit-grid"></div>
     </section>
 
   </section>
 </main>
 
+<!-- Подключение основного JS файла (модуль) -->
 <script type="module" src="JS/main.js"></script>
 </body>
 </html>

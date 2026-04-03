@@ -1,7 +1,14 @@
-import { initDay } from './day.js';
-import { initTheme } from './theme.js';
-import { initMonth } from './month.js';
+// ==================Imports======================= //
 
-initDay();
-initTheme();
-initMonth();
+import { initDay } from './day.js';      // Инициализация блока "День" (ежедневные задачи)
+import { initTheme } from './theme.js';  // Инициализация темы (светлая/темная)
+import { initMonth } from './month.js';  // Инициализация блока "Месяц" (цели на месяц)
+import { initHabits } from './habits.js'; // Инициализация трекера привычек
+
+// ==================Init all====================== //
+
+// Запускаем все модули приложения
+initDay();      // Задачи на день, навигация по дням, фильтры
+initTheme();    // Тема оформления (светлая/темная) + сохранение
+initMonth();    // Цели на месяц, приоритеты, добавление в день
+initHabits();   // Трекер привычек за последние 7 дней

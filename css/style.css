@@ -1,48 +1,60 @@
-/*=========Colors=============*/
-:root{
-  --bg: #121212;
-  --bg-secondary: #1a1a1a;
-  --bg-hover: #2a2a2a;
-  --text: #e0e0e0;
-  --accent: #7c5cff;
-  --border: #2a2a2a;
+/* ====================Colors===================== */
 
-  --priority-1: #e25f5f;
-  --priority-2: #d29e1d;
-  --priority-3: #7a7a7a;
+:root {
+  --bg: #121212;              /* Основной фон */
+  --bg-secondary: #1a1a1a;    /* Вторичный фон (карточки, навбар) */
+  --bg-hover: #2a2a2a;        /* Фон при наведении */
+  --text: #e0e0e0;            /* Цвет текста */
+  --accent: #7c5cff;          /* Акцентный цвет (фиолетовый) */
+  --border: #2a2a2a;          /* Цвет границ */
 
-  --radius: 8px;
-  --radius-sm: 6px;
+  --priority-1: #e25f5f;      /* Высокий приоритет (красный) */
+  --priority-2: #d29e1d;      /* Средний приоритет (оранжевый) */
+  --priority-3: #7a7a7a;      /* Низкий приоритет (серый) */
 
-  --transition: all 0.12s ease;
+  --radius: 8px;              /* Стандартный радиус скругления */
+  --radius-sm: 6px;           /* Маленький радиус скругления */
+
+  --transition: all 0.12s ease; /* Стандартная анимация */
 }
 
-/*=========Main===============*/
-*, *::after, *::before{
+/* ====================Main======================= */
+
+/* Сброс стилей и базовые настройки */
+*,
+*::after,
+*::before {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* Плавная смена цветов при переключении темы */
   transition: background-color 0.2s ease,
-            color 0.2s ease,
-            border-color 0.2s ease,
-            fill 0.2s ease,
-            stroke 0.2s ease;
+              color 0.2s ease,
+              border-color 0.2s ease,
+              fill 0.2s ease,
+              stroke 0.2s ease;
 }
-body{
+
+body {
   font-family: 'Nunito', sans-serif;
   background-color: var(--bg);
   color: var(--text);
 }
+
 img {
   max-width: 100%;
   display: block;
 }
 
-::selection{
+/* Стиль для выделения текста */
+::selection {
   background-color: var(--accent);
   color: var(--bg-secondary);
 }
 
+/* ====================Light theme================ */
+
+/* Светлая тема (переопределяем переменные) */
 body.light {
   --bg: #e9ecef;
   --bg-secondary: #f8f9fa;
@@ -51,42 +63,45 @@ body.light {
   --border: #ced4da;
 }
 
-/*=========Navbar=============*/
-.nav{
+/* ====================Navbar===================== */
+
+.nav {
   background-color: var(--bg-secondary);
   border-bottom: 1px solid var(--border);
 }
 
-.nav__container{
+.nav__container {
   width: min(1200px, 90%);
   margin: 0 auto;
   padding: 10px;
 }
 
-/*TOP*/
+/* TOP */
 
-.nav__top{
+.nav__top {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
 }
-.nav__title{
+
+.nav__title {
   grid-column: 2;
   padding: 4px 10px;
   transition: var(--transition);
 }
 
-.nav__title:hover{
+.nav__title:hover {
   color: var(--accent);
   scale: 1.02;
 }
 
-/* BURGER */
+/* BURGER (мобильное меню) */
 
-.nav__checkbox{
+.nav__checkbox {
   display: none;
 }
-.nav__burger{
+
+.nav__burger {
   grid-column: 3;
   justify-self: end;
   display: flex;
@@ -95,7 +110,7 @@ body.light {
   cursor: pointer;
 }
 
-.nav__burger--line{
+.nav__burger--line {
   width: 25px;
   height: 3px;
   background: var(--text);
@@ -103,22 +118,20 @@ body.light {
   transition: 0.3s;
 }
 
-/* АНИМАЦИЯ БУРГЕРА */
-
-.nav__checkbox:checked + .nav__top .nav__burger--line:nth-child(1){
+/* АНИМАЦИЯ БУРГЕРА (превращается в крестик) */
+.nav__checkbox:checked + .nav__top .nav__burger--line:nth-child(1) {
   transform: translateY(9px) rotate(45deg);
 }
 
-.nav__checkbox:checked + .nav__top .nav__burger--line:nth-child(2){
+.nav__checkbox:checked + .nav__top .nav__burger--line:nth-child(2) {
   opacity: 0;
 }
 
-.nav__checkbox:checked + .nav__top .nav__burger--line:nth-child(3){
+.nav__checkbox:checked + .nav__top .nav__burger--line:nth-child(3) {
   transform: translateY(-9px) rotate(-45deg);
 }
 
-/* MENU */
-
+/* MENU (выпадающее меню на мобилках) */
 .nav__items {
   max-height: 0;
   overflow: hidden;
@@ -134,14 +147,15 @@ body.light {
 
 /* ITEMS */
 
-.nav__item{
+.nav__item {
   margin: 15px 0;
   width: 100%;
   text-align: center;
 }
 
 /* BUTTONS */
-.nav__button{
+
+.nav__button {
   display: inline-block;
   align-items: center;
   gap: 10px;
@@ -156,42 +170,45 @@ body.light {
   transition: var(--transition);
 }
 
-.nav__button:hover{
+.nav__button:hover {
   background: var(--bg-hover);
   border-color: var(--accent);
   transform: translateY(-1px);
 }
 
-.nav__button i{
+.nav__button i {
   font-size: 1rem;
 }
 
 /* LOGO */
-.nav__item--img{
+
+.nav__item--img {
   display: none;
   transition: var(--transition);
 }
 
-.nav__item--img:hover{
-  scale: 1.05
+.nav__item--img:hover {
+  scale: 1.05;
 }
 
-/*========= DESKTOP-NavBar=======*/
+/* ====================DESKTOP NavBar================ */
 
-@media (min-width: 700px){
-  /*Navbar*/
-  .nav__container{
+@media (min-width: 700px) {
+  .nav__container {
     display: grid;
-    grid-template-columns: auto  1fr;
+    grid-template-columns: auto 1fr;
     align-items: center;
   }
-  .nav__top{
+  
+  .nav__top {
     display: block;
   }
-  .nav__burger{
+  
+  .nav__burger {
     display: none;
   }
-  .nav__items{
+  
+  .nav__items {
     max-height: none;
     opacity: 1;
     flex-direction: row;
@@ -199,35 +216,38 @@ body.light {
     gap: 15px;
     padding-top: 0;
   }
-  .nav__item{
+  
+  .nav__item {
     width: auto;
-    margin: 0
+    margin: 0;
   }
-  .nav__button{
+  
+  .nav__button {
     font-size: 0.9rem;
     padding: 10px;
     text-align: center;
     width: 45px;
   }
-  .nav__item--img{
+  
+  .nav__item--img {
     display: block;
     width: 40px;
     border-radius: var(--radius);
     overflow: hidden;
   }
-  .nav__text{
+  
+  .nav__text {
     display: none;
   }
-  .nav__button i{
+  
+  .nav__button i {
     font-size: 1.4rem;
-
   }
-
 }
 
-/*=========Main===============*/
+/* ====================Main container================ */
 
-.container{
+.container {
   width: min(100%, 1500px);
   margin: 0 auto;
   padding: 15px;
@@ -236,27 +256,35 @@ body.light {
   gap: 15px;
 }
 
-.column{
+.column {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-.month, .day, .calendar, .habit{
+/* Карточки (месяц, день, календарь, привычки) */
+.month,
+.day,
+.calendar,
+.habit {
   background-color: var(--bg-secondary);
   padding: 15px;
   border-radius: var(--radius);
   box-shadow: 0 0 0 1px var(--border);
 }
 
-@media (min-width: 850px){
-  .container{
+/* Адаптив: 2 колонки на больших экранах */
+@media (min-width: 850px) {
+  .container {
     grid-template-columns: 2fr 1fr;
   }
 }
 
-/*=========Controls===========*/
-.month__controls, .day__controls, .calendar__controls{
+/* ====================Controls==================== */
+
+.month__controls,
+.day__controls,
+.calendar__controls {
   display: grid;
   align-items: center;
   gap: 10px;
@@ -268,7 +296,10 @@ body.light {
   grid-template-columns: auto 1fr auto;
 }
 
-.day__title, .month__title, .calendar__title{
+/* Заголовки (дата, месяц) */
+.day__title,
+.month__title,
+.calendar__title {
   text-align: center;
   font-size: 1.4rem;
   font-weight: 600;
@@ -281,17 +312,26 @@ body.light {
   border-radius: var(--radius-sm);
 }
 
-.day__title--clickable:hover, .month__title--clickable:hover, .calendar__title--clickable:hover {
+/* Hover эффект для кликабельных заголовков */
+.day__title--clickable:hover,
+.month__title--clickable:hover,
+.calendar__title--clickable:hover {
   color: var(--accent);
   background-color: var(--bg-hover);
   transform: scale(1.02);
 }
 
-.month__title:active, .day__title:active, .calendar__title:active {
+/* Active эффект для заголовков */
+.month__title:active,
+.day__title:active,
+.calendar__title:active {
   transform: scale(0.98);
 }
 
-.month__btn, .day__btn, .calendar__btn{
+/* Кнопки навигации */
+.month__btn,
+.day__btn,
+.calendar__btn {
   background: none;
   border: none;
   color: var(--text);
@@ -307,14 +347,18 @@ body.light {
   border-radius: var(--radius-sm);
 }
 
-.month__btn:hover, .day__btn:hover, .calendar__btn:hover {
+.month__btn:hover,
+.day__btn:hover,
+.calendar__btn:hover {
   color: var(--accent);
   background-color: var(--bg-hover);
   transform: translateY(-1px) scale(1.05);
 }
 
-/*=========Lists==============*/
-.month__list, .day__list{
+/* ====================Lists======================= */
+
+.month__list,
+.day__list {
   list-style: none;
   display: flex;
   flex-direction: column;
@@ -322,7 +366,9 @@ body.light {
   align-content: start;
 }
 
-.month__item, .day__item{
+/* Элементы списка задач */
+.month__item,
+.day__item {
   display: grid;
   align-items: center;
   gap: 10px;
@@ -334,17 +380,21 @@ body.light {
   transition: var(--transition);
 }
 
-.month__item:hover, .day__item:hover{
+.month__item:hover,
+.day__item:hover {
   background-color: var(--bg-hover);
 }
 
-.month__text, .day__text{
+/* Текст задачи */
+.month__text,
+.day__text {
   word-break: break-word;
   overflow-wrap: break-word;
   white-space: normal;
 }
 
-.priority{
+/* Приоритеты (кружок с цифрой) */
+.priority {
   background-color: var(--accent);
   width: 24px;
   height: 24px;
@@ -358,21 +408,26 @@ body.light {
   cursor: pointer;
 }
 
-.priority--1{
+.priority--1 {
   background-color: var(--priority-1);
 }
-.priority--2{
+
+.priority--2 {
   background-color: var(--priority-2);
 }
-.priority--3{
+
+.priority--3 {
   background-color: var(--priority-3);
 }
 
-.month__actions{
+/* Кнопки действий (плюс, корзина) */
+.month__actions {
   display: flex;
   gap: 10px;
 }
-.month__actions button, .day__actions button{
+
+.month__actions button,
+.day__actions button {
   background: none;
   color: var(--text);
   border: none;
@@ -381,17 +436,21 @@ body.light {
   transition: var(--transition);
 }
 
-.month__actions button:hover, .day__actions button:hover{
+.month__actions button:hover,
+.day__actions button:hover {
   color: var(--accent);
   transform: translateY(-1px) scale(1.05);
 }
 
-.month__item--done, .day__item--done{
+/* Выполненные задачи */
+.month__item--done,
+.day__item--done {
   opacity: 0.6;
   text-decoration: line-through;
 }
 
-.day__check{
+/* Чекбокс задачи */
+.day__check {
   color: var(--text);
   background: none;
   border: none;
@@ -399,38 +458,43 @@ body.light {
   cursor: pointer;
   transition: var(--transition);
 }
-.day__check:hover{
+
+.day__check:hover {
   scale: 1.05;
 }
 
+/* Две колонки на широких экранах */
 @media (min-width: 1200px) {
   .month__list,
-  .day__list{
+  .day__list {
     column-count: 2;
     column-gap: 8px;
     display: block;
   }
-  
+
   .month__item,
-  .day__item{
+  .day__item {
     margin-bottom: 8px;
   }
 }
 
-/*=========Calendar===========*/
-.calendar__header{
+/* ====================Calendar==================== */
+
+.calendar__header {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
   font-size: 0.8rem;
   margin-bottom: 5px;
 }
-.calendar__grid{
+
+.calendar__grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 5px;
 }
-.calendar__day{
+
+.calendar__day {
   aspect-ratio: 1/1;
   background-color: var(--bg);
   display: flex;
@@ -440,16 +504,16 @@ body.light {
   border-radius: var(--radius);
   transition: var(--transition);
   cursor: pointer;
+  position: relative;
 }
-.calendar__day:hover{
+
+.calendar__day:hover {
   background-color: var(--bg-hover);
   scale: 1.05;
 }
 
-.calendar__day{
-  position: relative;
-}
-.calendar__day--has-task::after{
+/* Индикатор наличия задач на день */
+.calendar__day--has-task::after {
   content: '';
   position: absolute;
   bottom: 5px;
@@ -459,42 +523,81 @@ body.light {
   border-radius: 50%;
 }
 
-/*=========Habit==============*/
-.habit__title{
+/* ====================Habit======================= */
+
+.habit__title {
   margin-bottom: 10px;
   text-align: center;
   font-size: 1.4rem;
   font-weight: 600;
   letter-spacing: 0.5px;
 }
-.habit__grid{
+
+/* Сетка трекера привычек */
+.habit__grid {
   display: grid;
-  grid-template-columns: minmax(80px, 120px) repeat(7, 1fr);
+  grid-template-columns: minmax(100px, auto) repeat(7, 1fr);
   gap: 8px;
   align-items: center;
   text-align: center;
 }
-.habit__name{
-  padding-left: 5px;
-  font-size: 1.1rem
+
+.habit__name span {
+  font-size: 1.1rem;
+  display: inline-block;
+  word-break: break-all;
 }
-.habit__cell{
+
+/* Ячейка привычки */
+.habit__cell {
   aspect-ratio: 1/1;
   background-color: var(--bg);
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: var(--transition);
 }
-.habit__cell:hover{
-  scale: 1.05
+
+.habit__cell:hover {
+  scale: 1.05;
 }
 
-.habit__cell--done{
+/* Выполненная привычка */
+.habit__cell--done {
   background: var(--accent);
 }
 
-/*=========Inputs=============*/
-.input{
+/* Кнопка удаления привычки */
+.habit__delete-btn {
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  opacity: 0.6;
+  margin-left: 8px;
+}
+
+.habit__delete-btn:hover {
+  opacity: 1;
+  background-color: var(--bg-hover);
+  color: var(--accent);
+}
+
+/* Сообщение о пустом списке привычек */
+.habit__empty {
+  background-color: var(--bg);
+  grid-column: 1 / -1;
+  padding: 15px;
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+/* ====================Inputs====================== */
+
+.input {
   width: 100%;
   padding: 10px 12px;
   border-radius: var(--radius-sm);
@@ -506,60 +609,61 @@ body.light {
   transition: var(--transition);
 }
 
-.input:focus{
+.input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 2px rgba(124, 92, 255, 0.3);
   background: var(--bg-hover);
 }
-.input::placeholder{
+
+.input::placeholder {
   color: var(--priority-3);
 }
+
 .month__input-wrapper,
 .day__input-wrapper,
-.habit__input-wrapper{
+.habit__input-wrapper {
   margin-bottom: 15px;
 }
-.input:hover{
+
+.input:hover {
   border-color: var(--accent);
 }
-.input:focus::placeholder{
+
+.input:focus::placeholder {
   opacity: 0.3;
 }
 
+/* ====================Button Active States======== */
 
-
-/*=========Button Active States=========*/
 button:active {
   transform: scale(0.95);
   transition: transform 0.05s ease;
 }
+
 .month__btn:active,
 .day__btn:active,
 .calendar__btn:active {
   transform: scale(0.92);
 }
+
 .month__action-btn:active,
 .day__action-btn:active {
   transform: scale(0.9);
 }
+
 .nav__button:active {
   transform: scale(0.96);
 }
+
 .day__check:active {
   transform: scale(0.9);
 }
+
 .habit__cell:active {
   transform: scale(0.95);
 }
+
 button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-}
-button:active {
-  transform: scale(0.95);
-}
-.month__btn:active,
-.day__btn:active,
-.calendar__btn:active {
-  transform: scale(0.9);
 }
