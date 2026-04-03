@@ -68,3 +68,12 @@ export function formatDisplayMonth(date) {
   ];
   return `${months[date.getMonth()]} ${date.getFullYear()}`;
 }
+
+
+export function formatDisplayAbsoluteDate(dateStr) {
+  const months = [
+    "Января", "Февраля", "Марта", "Апреля", "Мая", "Июня",
+    "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"
+  ];
+  return `${dateStr.slice(8)} ${months[Number(dateStr.slice(5,7)-1)]} ${dateStr.slice(0,4)}`;
+}
