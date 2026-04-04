@@ -422,6 +422,69 @@ body.light {
   transform: scale(1.1);
 }
 
+@media (max-width: 600px) {
+  .month__controls,
+  .day__controls,
+  .calendar__controls {
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+  
+  .day__title,
+  .month__title,
+  .calendar__title {
+    font-size: 1rem;
+    padding: 4px 4px;
+  }
+  
+  .month__btn,
+  .day__btn,
+  .calendar__btn {
+    font-size: 0.9rem;
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 400px) {
+  .month__controls,
+  .day__controls,
+  .calendar__controls {
+    gap: 2px;
+  }
+  
+  .day__title,
+  .month__title,
+  .calendar__title {
+    font-size: 0.85rem;
+    padding: 4px 2px;
+  }
+  
+  .month__btn,
+  .day__btn,
+  .calendar__btn {
+    font-size: 0.8rem;
+    width: 26px;
+    height: 26px;
+  }
+}
+
+@media (max-width: 320px) {
+  .day__title,
+  .month__title,
+  .calendar__title {
+    font-size: 0.7rem;
+  }
+  
+  .month__btn,
+  .day__btn,
+  .calendar__btn {
+    font-size: 0.7rem;
+    width: 24px;
+    height: 24px;
+  }
+}
+
 /* ====================Lists======================= */
 
 .month__list,
