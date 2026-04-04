@@ -985,9 +985,9 @@ button:active {
 .month__item--empty,
 .day__item--empty {
   text-align: center;
-  padding: 24px 32px;
+  padding: 24px 24px;
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   grid-column: 1 / -1;
 }
 
