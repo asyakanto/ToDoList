@@ -70,7 +70,6 @@
 
 <!-- ====================MAIN APPLICATION================== -->
 <main class="container">
-
   <!-- ==========ЛЕВАЯ КОЛОНКА: Месяц + День========== -->
   <section class="column column--left">
 
@@ -98,6 +97,9 @@
           autocomplete="off"
           aria-label="Добавить цель (1_ высокий, 2_ средний, 3_ низкий)"
         >
+        <button class="month__btn btn btn--icon month__add-btn" id="month-addTask" aria-label="Добавить цель">
+          <i class="fa-solid fa-plus"></i>
+        </button>
       </div>
 
       <ul class="month__list" id="month-list"></ul>
@@ -127,6 +129,9 @@
           autocomplete="off"
           aria-label="Добавить задачу на день"
         >
+        <button class="day__btn btn btn--icon day__add-btn" id="day-addTask" aria-label="Добавить цель">
+          <i class="fa-solid fa-plus" id="day-addTask"></i>
+        </button>
       </div>
 
       <ul class="day__list" id="day-list"></ul>
@@ -160,7 +165,13 @@
 
     <!-- ТРЕКЕР ПРИВЫЧЕК -->
     <section class="habit" id="habit" aria-label="Трекер привычек">
-      <h2 class="habit__title">Привычки</h2>
+        <div class="habit__header">
+          <h2 class="habit__title">Привычки</h2>
+          <button class="habit__edit-btn btn btn--icon" id="habit-edit-btn" aria-label="Режим редактирования">
+            <i class="fa-solid fa-pencil"></i>
+          </button>
+        </div>
+
 
       <div class="habit__input-wrapper">
         <input 
@@ -171,6 +182,9 @@
           autocomplete="off"
           aria-label="Добавить привычку"
         >
+        <button class="habit__btn btn btn--icon habit__add-btn" id="habit-addTask" aria-label="Добавить привычку">
+          <i class="fa-solid fa-plus"></i>
+        </button>
       </div>
 
       <!-- Сетка привычек -->

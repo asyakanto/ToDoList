@@ -1,8 +1,12 @@
 // ====================Imports===================== //
 
-import { formatDisplayAbsoluteDate, formatDate } from './utils.js';
+import { formatDisplayAbsoluteDate, formatDate, showNotification } from './utils.js';
 import { initCalendar } from './calendar.js';
 import { initTheme } from './theme.js';  // Инициализация темы (светлая/темная)
+import { initShortCuts } from './shortcuts.js';
+import { getCurrentRealDate } from './day.js';
+
+
 
 // ====================Elements==================== //
 
@@ -24,7 +28,9 @@ let currentDate = null;
  * Обновляет заголовок страницы с датой
  */
 function updateDiaryTitle() {
-  diaryDate.textContent = formatDisplayAbsoluteDate(currentDate);
+  if (diaryDate) {
+      diaryDate.textContent = formatDisplayAbsoluteDate(currentDate);
+  }
 }
 
 /**
@@ -41,7 +47,7 @@ function getDateFromURL() {
 /**
  * Загружает и отображает заметку для текущей даты
  */
-function render() {
+export function render() {
   const entry = diaryEntries[currentDate] || { mood: "", events: "", goals: "" };
   diaryMood.value = entry.mood;
   diaryEvents.value = entry.events;
@@ -59,6 +65,7 @@ function saveField(field, value) {
   }
   diaryEntries[currentDate][field] = value;
   localStorage.setItem("diaryEntries", JSON.stringify(diaryEntries));
+  showNotification("Запись сохранена")
 }
 
 // ====================Calendar callback============ //
@@ -74,6 +81,20 @@ function clickOnDay(dateStr) {
   initCalendar(clickOnDay, currentDate);
   // Обновляем URL без перезагрузки страницы
   window.history.pushState({}, "", `?date=${dateStr}`);
+}
+// ====================Navigate to today============ //
+
+
+/**
+ * Переход на сегодняшнюю дату в дневнике
+ */
+export function goToTodayInDiary() {
+  const todayStr = formatDate(getCurrentRealDate());
+  currentDate = todayStr;
+  updateDiaryTitle();
+  render();
+  initCalendar(clickOnDay, currentDate);
+  window.history.pushState({}, "", `?date=${todayStr}`);
 }
 
 // ====================Init========================= //
@@ -93,3 +114,4 @@ function initDiary() {
 
 initDiary();
 initTheme();
+initShortCuts();

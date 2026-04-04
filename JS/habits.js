@@ -4,9 +4,12 @@ import { formatDate } from './utils.js';
 
 const habitInput = document.getElementById("habit-input");
 const habitGrid = document.getElementById("habit-grid");
+const habitAddBtn = document.getElementById("habit-addTask");
+const habitEditBtn = document.getElementById("habit-edit-btn");
 
 // Все цели по названию [{id, name, entries: {"2026-04-03" : true, ...}}, {...}]
 let habits = JSON.parse(localStorage.getItem("habits")) || [];
+let isRedactinHabits = JSON.parse(localStorage.getItem("isRedactinHabits")) || false;
 
 // ==============Days logic======================== //
 
@@ -77,16 +80,19 @@ function render() {
 
     const habitSpan = document.createElement("span");
     habitSpan.textContent = habit.name;
-    
-    const habitButton = document.createElement('button');
-    habitButton.className = "habit__delete-btn";
-    habitButton.dataset.habitId = habit.id;
-    habitButton.textContent = "✕";
-    habitButton.addEventListener("click", deleteHabit);
-
     habitName.appendChild(habitSpan);
-    habitName.appendChild(habitButton);
+
+    if (isRedactinHabits) {
+      const habitButton = document.createElement('button');
+      habitButton.className = "habit__delete-btn";
+      habitButton.dataset.habitId = habit.id;
+      habitButton.textContent = "✕";
+      habitButton.addEventListener("click", deleteHabit);
+      habitName.appendChild(habitButton);
+    };
+
     habitGrid.appendChild(habitName);
+
 
     // Ячейки для каждого дня
     for (let i = 0; i < daycount; i++) {
@@ -153,10 +159,34 @@ function handleClick(event) {
   }
 }
 
+// ==============Redacting Mode==================== //
+
+function turnRedactingMode() {
+  isRedactinHabits = !isRedactinHabits;
+  updateRedactingicon()
+
+  localStorage.setItem("isRedactinHabits", JSON.stringify(isRedactinHabits));
+  render();
+}
+
+function updateRedactingicon() {
+  const icon = habitEditBtn.querySelector("i");
+  if (isRedactinHabits) {
+    icon.className = "fa-solid fa-times";
+    habitEditBtn.classList.add("habit__edit-btn--active");
+  } else {
+    icon.className = "fa-solid fa-pencil";
+    habitEditBtn.classList.remove("habit__edit-btn--active");
+  }
+}
+
 // ==============Init============================== //
 
 export function initHabits() {
   render();
   habitInput.addEventListener("keydown", (event) => event.key === "Enter" && addHabit());
   habitGrid.addEventListener("click", handleClick);
+  habitAddBtn.addEventListener("click", addHabit);
+  habitEditBtn.addEventListener("click", turnRedactingMode);
+  updateRedactingicon()
 }

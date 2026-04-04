@@ -5,11 +5,16 @@ import { initTheme } from './theme.js';
 import { initMonth } from './month.js';
 import { initHabits } from './habits.js';
 import { initCalendar } from './calendar.js';
+import { initShortCuts } from './shortcuts.js';
 
 // ==================Init all====================== //
 
-initDay();
-initTheme();
-initMonth();
-initHabits();
-initCalendar();
+
+document.addEventListener("DOMContentLoaded", () => {
+  initDay();
+  initTheme();
+  initMonth();
+  initHabits();
+  initCalendar();
+  initShortCuts();
+});

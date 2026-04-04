@@ -1,3 +1,6 @@
+import { showNotification } from './utils.js';
+
+
 // ==============Variables======================== //
 
 const themeButton = document.getElementById("theme-btn");
@@ -29,10 +32,11 @@ function updateTheme() {
  * Переключает тему: меняет состояние lightTheme,
  * сохраняет выбор в localStorage и обновляет интерфейс
  */
-function switchTheme() {
+export function switchTheme() {
   lightTheme = !lightTheme;
   localStorage.setItem("theme", JSON.stringify(lightTheme));
   updateTheme();
+  showNotification(`${lightTheme ? "☀️ Светлая" : "🌙 Тёмная"} тема`)
 }
 
 // ==============Init============================== //

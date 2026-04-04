@@ -1,6 +1,6 @@
 // ==================Variables==================== //
 import { getMonthKey, formatDisplayMonth, escapeHtml } from './utils.js';
-import { addFromMonth } from './day.js';
+import { addFromMonth, addFromMonthToNextDay } from './day.js';
 
 const toPrev = document.getElementById("month-prev");
 const monthTitle = document.getElementById("month-title");
@@ -8,6 +8,7 @@ const monthToggle = document.getElementById("month-toggle-done");
 const toNext = document.getElementById("month-next");
 const monthInput = document.getElementById("month-input");
 const monthList = document.getElementById("month-list");
+const monthAddBtn = document.getElementById("month-addTask");
 
 // Состояние фильтра выполненных целей (true = скрывать выполненные)
 let hideMonthCompleted = JSON.parse(localStorage.getItem("hideMonthCompleted")) || false;
@@ -223,7 +224,11 @@ function handleListClick(event) {
     // Добавление цели в текущий день (из day.js)
     const task = tasks[key].find(t => t.id === id);
     if (task) {
-      addFromMonth(task.text);
+      if (event.shiftKey) {
+        addFromMonthToNextDay(task.text);  // Добавить на следующий день
+      } else {
+        addFromMonth(task.text);            // Добавить на текущий день
+      }
     }
   }
 
@@ -243,5 +248,6 @@ export function initMonth() {
   toNext.addEventListener("click", goToNextMonth);
   monthToggle.addEventListener("click", toggleHide);
   monthInput.addEventListener("keydown", (event) => event.key === "Enter" && addTask());
+  monthAddBtn.addEventListener("click", addTask)
   monthList.addEventListener("click", handleListClick);
 }

@@ -80,3 +80,24 @@ export function formatDisplayAbsoluteDate(dateStr) {
   const year = dateStr.slice(0,4);         // "2024"
   return `${day} ${months[month]} ${year}`;
 }
+
+
+/**
+ * Показывает временное уведомление
+ * @param {string} message - текст уведомления
+ */
+export function showNotification(message) {
+  // Создаем элемент
+  const notification = document.createElement("div");
+  notification.textContent = message;
+  notification.classList.add("notification");
+    
+  // Добавляем на страницу
+  document.body.appendChild(notification);
+  
+  // Удаляем через 2 секунды
+  setTimeout(() => {
+    notification.style.animation = "slideOut 0.3s ease";
+    setTimeout(() => notification.remove(), 300);
+  }, 2000);
+}

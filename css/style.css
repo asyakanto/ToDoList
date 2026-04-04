@@ -646,11 +646,45 @@ body.light {
 
 /* ====================Habit======================= */
 
-.habit__title {
+.habit__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 16px;
+}
+
+.habit__title {
   text-align: center;
   font-size: 1.3rem;
   font-weight: 700;
+  margin: 0;
+}
+
+.habit__edit-btn {
+  position: absolute;
+  right: 0;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.habit__edit-btn:hover {
+  color: var(--accent);
+  background-color: var(--bg-hover);
+  transform: scale(1.05);
+}
+
+.habit__edit-btn--active {
+  color: var(--accent);
+  background-color: var(--bg-hover);
 }
 
 /* Сетка трекера привычек */
@@ -717,11 +751,22 @@ body.light {
   max-width: 100px;
 }
 
+
+
 /* ====================Inputs====================== */
 
-.input {
+.month__input-wrapper,
+.day__input-wrapper,
+.habit__input-wrapper {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.month__input,
+.day__input,
+.habit__input {
   width: 100%;
-  padding: 12px 14px;
+  padding: 12px 50px 12px 14px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
   background-color: var(--bg);
@@ -731,25 +776,49 @@ body.light {
   transition: all 0.2s ease;
 }
 
-.input:focus {
+.month__input:focus,
+.day__input:focus,
+.habit__input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--input-glow);
   background: var(--bg-hover);
 }
 
-.input::placeholder {
+/* Все кнопки внутри инпутов */
+.month__add-btn,
+.day__add-btn,
+.habit__add-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
   color: var(--text-muted);
-  opacity: 0.6;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  font-size: 1.2rem;
+  z-index: 100000;
 }
 
-.input:hover {
-  border-color: var(--accent);
+.month__add-btn:hover,
+.day__add-btn:hover,
+.habit__add-btn:hover {
+  color: var(--accent);
+  background-color: var(--bg-hover);
+  transform: translateY(-50%) scale(1.05);
 }
 
-.month__input-wrapper,
-.day__input-wrapper,
-.habit__input-wrapper {
-  margin-bottom: 16px;
+.month__add-btn:active,
+.day__add-btn:active,
+.habit__add-btn:active {
+  transform: translateY(-50%) scale(0.95);
 }
 
 /* ====================Button Active States======== */
@@ -866,4 +935,40 @@ button:active {
   border-radius: var(--radius);
   text-align: center;
   color: var(--text-muted);
+}
+
+/* ====================Notification================ */
+
+.notification{
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--accent);
+  color: #e0e0e0;
+  padding: 12px 20px;
+  border-radius: 8px;
+  z-index: 9999;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100px);
+  }
 }

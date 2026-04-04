@@ -1,6 +1,6 @@
 // ==============Variables======================== //
 
-import { formatDate, escapeHtml, formatDisplayDate } from './utils.js';
+import { formatDate, escapeHtml, formatDisplayDate, showNotification } from './utils.js';
 
 const dayInput = document.getElementById("day-input");
 const dayList = document.getElementById("day-list");
@@ -8,6 +8,8 @@ const toggleBtn = document.getElementById("day-toggle-done");
 const toNext = document.getElementById("day-next");
 const dayTitle = document.getElementById("day-title");
 const toPrev = document.getElementById("day-prev");
+const addTaskBtn = document.getElementById("day-addTask");
+
 
 // Состояние фильтра выполненных задач (true = скрывать выполненные)
 let hideCompleted = JSON.parse(localStorage.getItem("hideCompleted")) || false;
@@ -20,7 +22,7 @@ let tasks = JSON.parse(localStorage.getItem("dayTasks")) || {};
  * Определяет "реальную" сегодняшнюю дату с учетом правила 2 часов ночи
  * @returns {Date} объект даты, который считается "сегодня"
  */
-function getCurrentRealDate() {
+export function getCurrentRealDate() {
   let now = new Date();
   if (now.getHours() < 2) {
     const yesterday = new Date(now);
@@ -131,6 +133,26 @@ function addTask() {
   render();
 }
 
+function addTaskToNextDay() {
+  const text = dayInput.value.trim();
+  if (!text) return;
+  const nextDay = new Date();
+  nextDay.setDate(currentDate.getDate()+1)
+  const key = formatDate(nextDay);
+
+  if (!tasks[key]) tasks[key] = [];
+
+  tasks[key].push({
+    id: Date.now(),
+    text: text,
+    completed: false,
+  });
+
+  dayInput.value = "";
+  localStorage.setItem("dayTasks", JSON.stringify(tasks));
+  showNotification(`Цель добавлена на ${formatDisplayDate(nextDay)}`)
+}
+
 // ================render========================= //
 
 /**
@@ -238,6 +260,23 @@ export function addFromMonth(text) {
   render();
 }
 
+export function addFromMonthToNextDay(text) {
+  const nextDay = new Date();
+  nextDay.setDate(currentDate.getDate() + 1);
+  const key = formatDate(nextDay);
+  if (!tasks[key]) tasks[key] = [];
+
+  tasks[key].push({
+    id: Date.now(),
+    text: text,
+    completed: false,
+  });
+
+  localStorage.setItem("dayTasks", JSON.stringify(tasks));
+  showNotification(`Цель добавлена на ${formatDisplayDate(nextDay)}`);
+  render();
+}
+
 // =================init========================== //
 
 export function initDay() {
@@ -245,7 +284,25 @@ export function initDay() {
   updateToggleBtn();
   render();
 
-  dayInput.addEventListener("keydown", (event) => event.key === "Enter" && addTask());
+  dayInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      if (event.shiftKey) {
+        addTaskToNextDay();
+      } else {
+        console.log(123)
+        addTask();
+      }
+    }
+  });
+  addTaskBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  if (event.shiftKey) {
+    addTaskToNextDay();
+  } else {
+    addTask();
+  }
+});
   toPrev.addEventListener('click', goToPrevDay);
   dayTitle.addEventListener("click", goToToday);
   toNext.addEventListener("click", goToNextDay);
