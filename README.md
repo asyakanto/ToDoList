@@ -1,6 +1,7 @@
 # 🜁 Doable
 
-[Сайт]()
+[Сайт](http://doable.art)
+[Alt](https://asyakanto.github.io/ToDoList/)
 
 **Doable** — веб-приложение для задач, целей, привычек и дневника.
 
