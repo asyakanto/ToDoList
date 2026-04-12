@@ -4,7 +4,7 @@
 
 **Doable** — веб-приложение для задач, целей, привычек и дневника.
 
-![Скриншот]()./assets/images/screenshot.png)
+![Скриншот](./assets/images/screenshot.png)
 
 ## 🚀 Основной функционал
 
