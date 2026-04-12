@@ -1,8 +1,10 @@
 # 🜁 Doable
 
+[Сайт]()
+
 **Doable** — веб-приложение для задач, целей, привычек и дневника.
 
-![[./assets/images/screenshot.png]]
+![Скриншот]()./assets/images/screenshot.png)
 
 ## 🚀 Основной функционал
 
