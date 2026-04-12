@@ -105,7 +105,7 @@ function render(onDayClick, highlightDate) {
       if (onDayClick) {
         onDayClick(dateStr);                          // Для страницы дневника
       } else {
-        window.location.href = `diary.html?date=${dateStr}`;  // Для главной страницы
+        window.location.href = `diary/index.html?date=${dateStr}`;  // Для главной страницы
       }
     });
 

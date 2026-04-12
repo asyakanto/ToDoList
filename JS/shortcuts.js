@@ -3,16 +3,15 @@ import { formatDate } from "./utils.js";
 
 function isOnPage(page) {
   const path = window.location.pathname;
-  const fileName = path.split('/').pop() || 'index.html';
   
   if (page === 'index') {
-    return fileName === 'index.html' || fileName === '';
+    return path === '/' || path === '/index.html';
   }
   if (page === 'diary') {
-    return fileName === 'diary.html';
+    return path.startsWith('/diary/') || path === '/diary';
   }
   if (page === 'settings') {
-    return fileName === 'settings.html';
+    return path.startsWith('/settings/') || path === '/settings';
   }
   return false;
 }
