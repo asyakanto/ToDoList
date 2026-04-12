@@ -1,15 +1,20 @@
-// ====================Imports===================== //
+/**
+ * ==================== МОДУЛЬ ДНЕВНИКА ====================
+ * Страница для ведения личных заметок по дням:
+ * - Три поля: эмоции, события, цели
+ * - Автосохранение при потере фокуса
+ * - Календарь для навигации по датам
+ * - Копирование и очистка заметок
+ * - Переход на сегодняшнюю дату (Alt+T)
+ */
 
 import { formatDisplayAbsoluteDate, formatDate, showNotification } from './utils.js';
 import { initCalendar } from './calendar.js';
 import { initTheme } from './theme.js';
 import { initShortCuts } from './shortcuts.js';
 import { getCurrentRealDate } from './day.js';
-import { initSettings } from './settings.js'
 
-
-// ====================Elements==================== //
-
+// ============== DOM ЭЛЕМЕНТЫ ==============
 const diaryDate = document.getElementById("diary-date");
 const diaryMood = document.getElementById("diary-mood");
 const diaryEvents = document.getElementById("diary-events");
@@ -17,19 +22,21 @@ const diaryGoals = document.getElementById("diary-goals");
 const clearBtn = document.getElementById("clear_btn");
 const copyBtn = document.getElementById("copy_btn");
 
-// ====================Data========================= //
-
+// ============== СОСТОЯНИЕ ==============
+// Хранилище записей: { "2024-03-22": { mood, events, goals } }
 let diaryEntries = JSON.parse(localStorage.getItem("diaryEntries")) || {};
 let currentDate = null;
 
-// ====================Helpers====================== //
+// ============== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==============
 
+/** Обновляет заголовок страницы с датой */
 function updateDiaryTitle() {
   if (diaryDate) {
     diaryDate.textContent = formatDisplayAbsoluteDate(currentDate);
   }
 }
 
+/** Получает дату из URL параметра 'date' или возвращает сегодняшнюю */
 function getDateFromURL() {
   const params = new URLSearchParams(window.location.search);
   const date = params.get('date');
@@ -37,6 +44,7 @@ function getDateFromURL() {
   return formatDate(new Date());
 }
 
+/** Загружает и отображает заметку для текущей даты */
 export function render() {
   const entry = diaryEntries[currentDate] || { mood: "", events: "", goals: "" };
   if (diaryMood) diaryMood.value = entry.mood;
@@ -44,6 +52,7 @@ export function render() {
   if (diaryGoals) diaryGoals.value = entry.goals;
 }
 
+/** Сохраняет одно поле заметки в localStorage */
 function saveField(field, value) {
   if (!diaryEntries[currentDate]) {
     diaryEntries[currentDate] = { mood: "", events: "", goals: "" };
@@ -53,8 +62,9 @@ function saveField(field, value) {
   showNotification("📝 Запись сохранена");
 }
 
-// ====================Calendar callback============ //
+// ============== КАЛЕНДАРЬ ==============
 
+/** Обработчик клика по дню в календаре */
 function clickOnDay(dateStr) {
   currentDate = dateStr;
   updateDiaryTitle();
@@ -63,8 +73,9 @@ function clickOnDay(dateStr) {
   window.history.pushState({}, "", `?date=${dateStr}`);
 }
 
-// ====================Navigate to today============ //
+// ============== НАВИГАЦИЯ ==============
 
+/** Переход на сегодняшнюю дату (Alt+T) */
 export function goToTodayInDiary() {
   const todayStr = formatDate(getCurrentRealDate());
   currentDate = todayStr;
@@ -75,8 +86,9 @@ export function goToTodayInDiary() {
   showNotification("📅 Переход на сегодня");
 }
 
-// ====================Clear & Copy================= //
+// ============== ДЕЙСТВИЯ С ЗАМЕТКОЙ ==============
 
+/** Очищает все поля заметки на текущую дату */
 function clearCurrentText() {
   diaryEntries[currentDate] = { mood: "", events: "", goals: "" };
   localStorage.setItem("diaryEntries", JSON.stringify(diaryEntries));
@@ -84,6 +96,7 @@ function clearCurrentText() {
   showNotification("🧹 Заметка очищена");
 }
 
+/** Копирует содержимое заметки в буфер обмена */
 function copyToClipboard() {
   const entry = diaryEntries[currentDate] || { mood: "", events: "", goals: "" };
   const text = `📅 ${formatDisplayAbsoluteDate(currentDate)}\n\n` +
@@ -98,7 +111,7 @@ function copyToClipboard() {
   });
 }
 
-// ====================Init========================= //
+// ============== ИНИЦИАЛИЗАЦИЯ ==============
 
 function initDiary() {
   currentDate = getDateFromURL();
@@ -114,7 +127,7 @@ function initDiary() {
   initCalendar(clickOnDay, currentDate);
 }
 
+// Запуск
 initTheme();
 initShortCuts();
 initDiary();
-initSettings();

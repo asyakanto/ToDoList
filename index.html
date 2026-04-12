@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Doable</title>
+  <title>Doable — Управляй задачами и привычками</title>
 
   <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
@@ -21,16 +21,16 @@
 </head>
 <body>
 
-<!-- ====================NAVIGATION BAR==================== -->
+<!-- ==================== НАВИГАЦИОННАЯ ПАНЕЛЬ ==================== -->
 <header class="nav" aria-label="Главная навигация">
   <div class="nav__container">
 
-    <!-- Чекбокс для управления мобильным меню -->
+    <!-- Скрытый чекбокс для управления мобильным меню -->
     <input type="checkbox" id="menu-toggle" class="nav__checkbox" aria-label="Открыть меню">
 
     <div class="nav__top">
       <h1 class="nav__title">Doable</h1>
-      <!-- Бургер-иконка -->
+      <!-- Бургер-иконка для мобильных устройств -->
       <label for="menu-toggle" class="nav__burger" id="burger-btn" aria-label="Открыть меню">
         <span class="nav__burger--line"></span>
         <span class="nav__burger--line"></span>
@@ -48,7 +48,7 @@
       </div>
 
       <div class="nav__item">
-        <a href="diary/index.html" class="nav__button btn" id="settings-btn" aria-label="Открыть Дневник">
+        <a href="diary/index.html" class="nav__button btn" id="diary-btn" aria-label="Открыть Дневник">
           <i class="fa-solid fa-book btn--icon"></i>
           <span class="nav__text">Дневник</span>
         </a>
@@ -68,12 +68,13 @@
   </div>
 </header>
 
-<!-- ====================MAIN APPLICATION================== -->
+<!-- ==================== ОСНОВНОЕ ПРИЛОЖЕНИЕ ==================== -->
 <main class="container">
-  <!-- ==========ЛЕВАЯ КОЛОНКА: Месяц + День========== -->
+  
+  <!-- ЛЕВАЯ КОЛОНКА: Месяц + День -->
   <section class="column column--left">
 
-    <!-- БЛОК МЕСЯЦ (цели / глобальные задачи) -->
+    <!-- БЛОК МЕСЯЦ (глобальные цели) -->
     <section class="month" id="month" aria-label="Цели на месяц">
       <div class="month__controls">
         <button class="month__btn btn btn--icon" id="month-prev" aria-label="Предыдущий месяц">
@@ -129,8 +130,8 @@
           autocomplete="off"
           aria-label="Добавить задачу на день"
         >
-        <button class="day__btn btn btn--icon day__add-btn add-btn" id="day-addTask" aria-label="Добавить цель">
-          <i class="fa-solid fa-plus" id="day-addTask"></i>
+        <button class="day__btn btn btn--icon day__add-btn add-btn" id="day-addTask" aria-label="Добавить задачу">
+          <i class="fa-solid fa-plus"></i>
         </button>
       </div>
 
@@ -138,10 +139,10 @@
     </section>
   </section>
 
-  <!-- ==========ПРАВАЯ КОЛОНКА: Календарь + Привычки========== -->
+  <!-- ПРАВАЯ КОЛОНКА: Календарь + Привычки -->
   <section class="column column--right">
 
-    <!-- КАЛЕНДАРЬ с индикаторами задач -->
+    <!-- КАЛЕНДАРЬ -->
     <section class="calendar" id="calendar" aria-label="Календарь событий">
       <div class="calendar__controls">
         <button class="calendar__btn btn btn--icon" id="calendar-prev" aria-label="Предыдущий месяц">
@@ -159,19 +160,17 @@
       </div>
 
       <!-- Сетка с числами дней -->
-      <div class="calendar__grid" id="calendar-grid">
-      </div>
+      <div class="calendar__grid" id="calendar-grid"></div>
     </section>
 
     <!-- ТРЕКЕР ПРИВЫЧЕК -->
     <section class="habit" id="habit" aria-label="Трекер привычек">
-        <div class="habit__header">
-          <h2 class="habit__title">Привычки</h2>
-          <button class="habit__edit-btn btn btn--icon" id="habit-edit-btn" aria-label="Режим редактирования">
-            <i class="fa-solid fa-pencil"></i>
-          </button>
-        </div>
-
+      <div class="habit__header">
+        <h2 class="habit__title">Привычки</h2>
+        <button class="habit__edit-btn btn btn--icon" id="habit-edit-btn" aria-label="Режим редактирования">
+          <i class="fa-solid fa-pencil"></i>
+        </button>
+      </div>
 
       <div class="habit__input-wrapper input-wrapper">
         <input 
@@ -187,7 +186,7 @@
         </button>
       </div>
 
-      <!-- Сетка привычек -->
+      <!-- Сетка привычек (заполняется JS) -->
       <div class="habit__grid" id="habit-grid"></div>
     </section>
 
@@ -197,4 +196,3 @@
 <!-- Подключение основного JS файла -->
 <script type="module" src="JS/main.js"></script>
 </body>
-</html>

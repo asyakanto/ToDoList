@@ -1,7 +1,17 @@
-// ==============Variables======================== //
+/**
+ * ==================== МОДУЛЬ ДНЯ ====================
+ * Управление ежедневными задачами:
+ * - Добавление, удаление, выполнение задач
+ * - Навигация по дням (вперёд/назад)
+ * - Фильтрация выполненных задач
+ * - Выделение важных задач (Alt+H)
+ * - Редактирование задач (двойной клик)
+ * - Добавление задач на следующий день (Shift+Enter)
+ */
 
 import { formatDate, escapeHtml, formatDisplayDate, showNotification } from './utils.js';
 
+// ============== DOM ЭЛЕМЕНТЫ ==============
 const dayInput = document.getElementById("day-input");
 const dayList = document.getElementById("day-list");
 const toggleBtn = document.getElementById("day-toggle-done");
@@ -10,16 +20,17 @@ const dayTitle = document.getElementById("day-title");
 const toPrev = document.getElementById("day-prev");
 const addTaskBtn = document.getElementById("day-addTask");
 
-
-// Состояние фильтра выполненных задач (true = скрывать выполненные)
+// ============== СОСТОЯНИЕ ==============
+// Фильтр выполненных задач
 let hideCompleted = JSON.parse(localStorage.getItem("hideCompleted")) || false;
-// Все задачи по дням: { "2024-03-22": [{ id, text, completed, highlitghed }] }
+// Хранилище задач: { "2024-03-22": [{ id, text, completed, highlighted }] }
 let tasks = JSON.parse(localStorage.getItem("dayTasks")) || {};
 
-// ==============Date============================= //
+// ============== РАБОТА С ДАТОЙ ==============
 
 /**
- * Определяет "реальную" сегодняшнюю дату с учетом правила 2 часов ночи
+ * Определяет "реальную" сегодняшнюю дату с учётом правила 2 часов ночи
+ * Если сейчас меньше 2 часов ночи, показываем вчерашний день
  * @returns {Date} объект даты, который считается "сегодня"
  */
 export function getCurrentRealDate() {
@@ -32,23 +43,23 @@ export function getCurrentRealDate() {
   return now;
 }
 
-// Текущая выбранная дата (какой день показываем на экране)
+// Текущая выбранная дата
 let currentDate = getCurrentRealDate();
 
 /**
  * Проверяет, является ли текущая выбранная дата "сегодня" по правилу
- * @returns {boolean} true если currentDate = сегодня
+ * @returns {boolean}
  */
 function isCurrentDateReal() {
   return formatDate(currentDate) === formatDate(getCurrentRealDate());
 }
 
 /**
- * Обновляет заголовок с датой и делает его кликабельным если это не сегодня
+ * Обновляет заголовок с датой
+ * Если дата не сегодняшняя - делает заголовок кликабельным
  */
 function updateDayTitle() {
   dayTitle.textContent = formatDisplayDate(currentDate);
-
   if (!isCurrentDateReal()) {
     dayTitle.classList.add("day__title--clickable");
   } else {
@@ -56,76 +67,61 @@ function updateDayTitle() {
   }
 }
 
-// =================Controls====================== //
+// ============== НАВИГАЦИЯ ==============
 
-/**
- * Переход на предыдущий день
- */
+/** Переход на предыдущий день */
 function goToPrevDay() {
   currentDate.setDate(currentDate.getDate() - 1);
   updateDayTitle();
   render();
 }
 
-/**
- * Возврат к текущему дню (клик по заголовку)
- */
+/** Возврат к текущему дню (клик по заголовку) */
 function goToToday() {
   if (isCurrentDateReal()) return;
-
   currentDate = getCurrentRealDate();
   updateDayTitle();
   render();
 }
 
-/**
- * Переход на следующий день
- */
+/** Переход на следующий день */
 function goToNextDay() {
   currentDate.setDate(currentDate.getDate() + 1);
   updateDayTitle();
   render();
 }
 
-// ================Toggle btn===================== //
+// ============== ФИЛЬТР ВЫПОЛНЕННЫХ ==============
 
-/**
- * Обновляет иконку кнопки фильтра выполненных задач
- */
+/** Обновляет иконку кнопки фильтра */
 function updateToggleBtn() {
   const icon = toggleBtn.querySelector("i");
   icon.className = hideCompleted ? "fa-solid fa-eye-slash" : "fa-solid fa-eye";
 }
 
-/**
- * Переключает режим скрытия выполненных задач
- */
+/** Переключает режим скрытия выполненных задач */
 function toggleHide() {
   hideCompleted = !hideCompleted;
   localStorage.setItem("hideCompleted", JSON.stringify(hideCompleted));
-
   updateToggleBtn();
   render();
 }
 
-// =================add task====================== //
+// ============== ДОБАВЛЕНИЕ ЗАДАЧ ==============
 
-/**
- * Добавляет новую задачу на текущий день
- * Срабатывает при нажатии Enter в поле ввода
- */
+/** Добавляет задачу на текущий день */
 function addTask() {
   const text = dayInput.value.trim();
   if (!text) return;
 
   const key = formatDate(currentDate);
-
   if (!tasks[key]) tasks[key] = [];
 
   tasks[key].push({
     id: Date.now(),
     text: text,
     completed: false,
+    highlighted: false,
   });
 
   dayInput.value = "";
@@ -133,11 +129,13 @@ function addTask() {
   render();
 }
 
+/** Добавляет задачу на следующий день (Shift+Enter) */
 function addTaskToNextDay() {
   const text = dayInput.value.trim();
   if (!text) return;
-  const nextDay = new Date();
-  nextDay.setDate(currentDate.getDate()+1)
+  
+  const nextDay = new Date(currentDate);
+  nextDay.setDate(currentDate.getDate() + 1);
   const key = formatDate(nextDay);
 
   if (!tasks[key]) tasks[key] = [];
@@ -151,13 +149,13 @@ function addTaskToNextDay() {
 
   dayInput.value = "";
   localStorage.setItem("dayTasks", JSON.stringify(tasks));
-  showNotification(`Цель добавлена на ${formatDisplayDate(nextDay)}`)
+  showNotification(`✅ Задача добавлена на ${formatDisplayDate(nextDay)}`);
 }
 
-// ================render========================= //
+// ============== ОТРИСОВКА ==============
 
 /**
- * Отрисовывает список задач на текущий день
+ * Отрисовывает список задач
  * Сортировка: сначала невыполненные, потом выполненные
  */
 function render() {
@@ -166,17 +164,14 @@ function render() {
   const key = formatDate(currentDate);
   let dayTasks = tasks[key] || [];
 
-  // Фильтрация выполненных (если включен режим)
   if (hideCompleted) {
     dayTasks = dayTasks.filter(t => !t.completed);
   }
   
-  // Сортировка: сначала невыполненные, потом выполненные
   const completedTasks = dayTasks.filter(t => t.completed);
   const unCompletedTasks = dayTasks.filter(t => !t.completed);
   dayTasks = [...unCompletedTasks, ...completedTasks];
 
-  // Если нет задач - показываем сообщение
   if (dayTasks.length === 0) {
     const emptyMessage = document.createElement("li");
     emptyMessage.className = "day__item day__item--empty";
@@ -190,9 +185,8 @@ function render() {
     return;
   }
 
-  // Отображаем каждую задачу
   dayTasks.forEach(task => {
-    let li = document.createElement("li");
+    const li = document.createElement("li");
     li.className = `day__item${task.completed ? " day__item--done" : ""}${task.highlighted ? " day__item--highlighted" : ""}`;
     li.dataset.id = task.id;
     li.innerHTML = `
@@ -206,22 +200,19 @@ function render() {
         </button>
       </div>
     `;
+    
     li.addEventListener("dblclick", (event) => {
       event.stopPropagation();
       editTask(task, li);
-    })
+    });
+    
     dayList.appendChild(li);
   });
 }
 
-function highlightMessage(task) {
-  task.highlighted = !task.highlighted;
-  localStorage.setItem("dayTasks", JSON.stringify(tasks));
-  render();
-}
+// ============== РЕДАКТИРОВАНИЕ ==============
 
-// ===============Editing Task==================== //
-
+/** Редактирование задачи (двойной клик) */
 function editTask(task, element) {
   const originalText = task.text;
   const originalElement = element.querySelector(".day__text");
@@ -234,6 +225,7 @@ function editTask(task, element) {
 
     originalElement.replaceWith(input);
     input.focus();
+    
     const range = document.createRange();
     const sel = window.getSelection();
     range.selectNodeContents(input);
@@ -247,31 +239,29 @@ function editTask(task, element) {
         task.text = newText;
         localStorage.setItem("dayTasks", JSON.stringify(tasks));
       }
-      render ();
+      render();
     });
 
     input.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
-        input.blur()
+        input.blur();
       } else if (event.key === "Escape") {
         render();
       }
     });
-  };
+  }
 }
 
-// ===============list item clicks================ //
+// ============== ОБРАБОТЧИК КЛИКОВ ==============
 
 /**
- * Обрабатывает клики по элементам списка задач
- * Действия: toggle (выполнить/вернуть), delete (удалить)
+ * Обрабатывает клики по кнопкам задач
+ * - delete: удаление
+ * - toggle: выполнение/возврат
  */
-// Вместо li.addEventListener, добавь в handleListClick проверку на выделение
 function handleListClick(event) {
-  // Сначала проверяем - может клик по кнопке?
   const btn = event.target.closest("button");
   
-  // Если клик по кнопке - обрабатываем действия
   if (btn) {
     const id = Number(btn.dataset.id);
     const action = btn.dataset.action;
@@ -289,14 +279,15 @@ function handleListClick(event) {
     
     localStorage.setItem("dayTasks", JSON.stringify(tasks));
     render();
-    return;
   }
 }
 
-// ==============Highlight on Alt+H================ //
+// ============== ВЫДЕЛЕНИЕ ЗАДАЧ ==============
 
+/**
+ * Выделяет/снимает выделение с задачи под курсором (Alt+H)
+ */
 export function highlightTaskUnderCursor() {
-  // Находим задачу под курсором
   const hoveredElement = document.querySelector(".day__item:hover");
   
   if (!hoveredElement) {
@@ -316,13 +307,9 @@ export function highlightTaskUnderCursor() {
   }
 }
 
-// ===================Add from months============= //
+// ============== ИМПОРТ ИЗ МЕСЯЦА ==============
 
-/**
- * Добавляет задачу из месяца в текущий день
- * Вызывается из month.js при нажатии на кнопку "+"
- * @param {string} text - текст задачи/цели
- */
+/** Добавляет цель из месяца в текущий день */
 export function addFromMonth(text) {
   const key = formatDate(currentDate);
   if (!tasks[key]) tasks[key] = [];
@@ -338,8 +325,9 @@ export function addFromMonth(text) {
   render();
 }
 
+/** Добавляет цель из месяца в следующий день */
 export function addFromMonthToNextDay(text) {
-  const nextDay = new Date();
+  const nextDay = new Date(currentDate);
   nextDay.setDate(currentDate.getDate() + 1);
   const key = formatDate(nextDay);
   if (!tasks[key]) tasks[key] = [];
@@ -352,11 +340,11 @@ export function addFromMonthToNextDay(text) {
   });
 
   localStorage.setItem("dayTasks", JSON.stringify(tasks));
-  showNotification(`Цель добавлена на ${formatDisplayDate(nextDay)}`);
+  showNotification(`✅ Цель добавлена на ${formatDisplayDate(nextDay)}`);
   render();
 }
 
-// =================init========================== //
+// ============== ИНИЦИАЛИЗАЦИЯ ==============
 
 export function initDay() {
   updateDayTitle();
@@ -373,14 +361,16 @@ export function initDay() {
       }
     }
   });
+  
   addTaskBtn.addEventListener("click", (event) => {
-  event.preventDefault();
-  if (event.shiftKey) {
-    addTaskToNextDay();
-  } else {
-    addTask();
-  }
-});
+    event.preventDefault();
+    if (event.shiftKey) {
+      addTaskToNextDay();
+    } else {
+      addTask();
+    }
+  });
+  
   toPrev.addEventListener('click', goToPrevDay);
   dayTitle.addEventListener("click", goToToday);
   toNext.addEventListener("click", goToNextDay);

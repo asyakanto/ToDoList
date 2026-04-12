@@ -1,68 +1,61 @@
-// ====================Imports===================== //
+/**
+ * ==================== МОДУЛЬ КАЛЕНДАРЯ ====================
+ * Универсальный календарь:
+ * - Отображение дней месяца
+ * - Индикаторы наличия задач и записей дневника
+ * - Подсветка текущей и выбранной даты
+ * - Навигация по месяцам
+ * - Клик по дню (переход в дневник или вызов колбэка)
+ */
 
 import { formatDisplayMonth, getMonthKey } from './utils.js';
 
-// ====================Elements==================== //
+// ============== DOM ЭЛЕМЕНТЫ ==============
+const toPrev = document.getElementById("calendar-prev");
+const calTitle = document.getElementById("calendar-title");
+const toNext = document.getElementById("calendar-next");
+const calGrid = document.getElementById("calendar-grid");
 
-const toPrev = document.getElementById("calendar-prev");      // Кнопка "предыдущий месяц"
-const calTitle = document.getElementById("calendar-title");  // Заголовок с названием месяца
-const toNext = document.getElementById("calendar-next");      // Кнопка "следующий месяц"
-const calGrid = document.getElementById("calendar-grid");     // Сетка с днями
+// ============== СОСТОЯНИЕ ==============
+let currentDate = new Date();
+let highlightedDate = null;      // Дата для подсветки (из дневника)
+let onDayClickCallback = null;    // Колбэк при клике на день
 
-// ====================Data======================= //
+// ============== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==============
 
 /**
- * Проверяет, есть ли заметка в дневнике на указанную дату
+ * Проверяет, есть ли запись в дневнике на указанную дату
  * @param {string} dateStr - дата в формате "2024-03-22"
- * @returns {boolean} true если есть хотя бы одно непустое поле
  */
 function hasDiaryEntry(dateStr) {
-  // = {"2024-03-22": {mood: "не счастлив", events: "ничего", goals: "не сдохнуть"}, "2024-03-23": {...}, ...}
   const diaryEntries = JSON.parse(localStorage.getItem("diaryEntries")) || {};
   const entry = diaryEntries[dateStr];
   if (!entry) return false;
   return (entry.mood?.length > 0) || (entry.events?.length > 0) || (entry.goals?.length > 0);
 }
 
-// ====================State======================= //
-
-// Текущий отображаемый месяц
-let currentDate = new Date();
-
-let highlightedDate = null;
-
-// ====================Date helpers================ //
-
-/**
- * Определяет день недели первого дня месяца (Пн = 0, Вс = 6)
- * @returns {number} количество пустых ячеек перед первым днем
- */
+/** Определяет день недели первого дня месяца (Пн = 0) */
 function weekDayOfFirstDay() {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
   let weekday = new Date(year, month, 1).getDay();
-  // Преобразуем: Вс(0) → 6, Пн(1) → 0, Вт(2) → 1 и т.д.
   weekday = weekday === 0 ? 6 : weekday - 1;
   return weekday;
 }
 
-/**
- * Возвращает количество дней в текущем месяце
- * @returns {number} 28-31
- */
+/** Возвращает количество дней в текущем месяце */
 function numberOfDaysThisMonth() {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
   return new Date(year, month + 1, 0).getDate();
 }
 
-// ====================Render====================== //
+// ============== ОТРИСОВКА ==============
 
 /**
  * Отрисовывает календарь
- * @param {Function} onDayClick - колбэк, вызываемый при клике на день
- *   - Если передан: вызывается с датой (для страницы дневника)
- *   - Если не передан: переход на страницу дневника (для главной страницы)
+ * @param {Function} onDayClick - колбэк при клике на день
+ * @param {string} highlightDate - дата для подсветки
  */
 function render(onDayClick, highlightDate) {
   calGrid.innerHTML = "";
@@ -71,7 +64,7 @@ function render(onDayClick, highlightDate) {
   const daysBeforeFirst = weekDayOfFirstDay();
   const numberOfDays = numberOfDaysThisMonth();
 
-  // Пустые ячейки перед первым днем месяца
+  // Пустые ячейки перед первым днём
   for (let i = 0; i < daysBeforeFirst; i++) {
     const emptyElement = document.createElement("div");
     calGrid.appendChild(emptyElement);
@@ -79,56 +72,48 @@ function render(onDayClick, highlightDate) {
 
   // Ячейки для каждого дня месяца
   for (let i = 1; i <= numberOfDays; i++) {
-    // Проверка: является ли этот день сегодняшним
     const isToday = 
       today.getFullYear() === currentDate.getFullYear() &&
       today.getMonth() === currentDate.getMonth() &&
       i === today.getDate();
 
-    // Создаем ячейку
     const dayElement = document.createElement("div");
     dayElement.classList.add("calendar__day");
     dayElement.textContent = i;
+    
     if (isToday) dayElement.classList.add("calendar__day--today");
 
-    // Формируем дату в формате "2024-03-22"
     const dateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
 
-    // подсвечиваем открытую дату в дневнике
+    // Подсветка выбранной даты (из дневника)
     if (highlightDate && dateStr === highlightDate) {
-      dayElement.classList.add("calendar__day--active");  // специальный класс
+      dayElement.classList.add("calendar__day--active");
     }
 
-
-    // Обработчик клика по дню
+    // Обработчик клика
     dayElement.addEventListener("click", () => {
       if (onDayClick) {
-        onDayClick(dateStr);                          // Для страницы дневника
+        onDayClick(dateStr);
       } else {
-        window.location.href = `diary/index.html?date=${dateStr}`;  // Для главной страницы
+        window.location.href = `diary/index.html?date=${dateStr}`;
       }
     });
 
-    // Индикатор наличия заметки
-    const hasEntry = hasDiaryEntry(dateStr);
-    if (hasEntry) dayElement.classList.add("calendar__day--has-task");
+    // Индикатор наличия записи в дневнике
+    if (hasDiaryEntry(dateStr)) {
+      dayElement.classList.add("calendar__day--has-task");
+    }
 
     calGrid.appendChild(dayElement);
   }
 }
 
-// ====================Navigation=================== //
+// ============== НАВИГАЦИЯ ==============
 
-/**
- * Проверяет, является ли текущий месяц реальным текущим месяцем
- */
 function isCurrentMonthReal() {
   return getMonthKey(currentDate) === getMonthKey(new Date());
 }
 
-/**
- * Обновляет заголовок календаря и делает его кликабельным
- */
 function updateCalTitle() {
   calTitle.textContent = formatDisplayMonth(currentDate);
   if (!isCurrentMonthReal()) {
@@ -138,47 +123,41 @@ function updateCalTitle() {
   }
 }
 
-/**
- * Переход на предыдущий месяц
- */
 function toPrevMonth() {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
   currentDate = new Date(year, month - 1, 1);
   updateCalTitle();
-  render(undefined, highlightedDate);  // Без колбэка, так как навигация не должна менять поведение
+  render(onDayClickCallback, highlightedDate);
 }
 
-/**
- * Переход на следующий месяц
- */
 function toNextMonth() {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
   currentDate = new Date(year, month + 1, 1);
   updateCalTitle();
-  render(undefined, highlightedDate);
+  render(onDayClickCallback, highlightedDate);
 }
 
-/**
- * Возврат к текущему месяцу (клик по заголовку)
- */
 function goToCurrentMonth() {
   if (isCurrentMonthReal()) return;
   currentDate = new Date();
   updateCalTitle();
-  render(undefined, highlightedDate);
+  render(onDayClickCallback, highlightedDate);
 }
 
-// ====================Init======================== //
+// ============== ИНИЦИАЛИЗАЦИЯ ==============
 
 /**
  * Инициализирует календарь
- * @param {Function} onDayClick - опциональный колбэк для клика по дню
+ * @param {Function} onDayClick - колбэк при клике на день (для страницы дневника)
+ * @param {string} highlightDate - дата для подсветки (текущая дата в дневнике)
  */
-export function initCalendar(onDayClick, highlightedDate) {
+export function initCalendar(onDayClick, highlightDate) {
+  onDayClickCallback = onDayClick;
+  highlightedDate = highlightDate;
   updateCalTitle();
-  render(onDayClick, highlightedDate);
+  render(onDayClick, highlightDate);
 
   toPrev.addEventListener("click", toPrevMonth);
   toNext.addEventListener("click", toNextMonth);

@@ -1,7 +1,19 @@
-// ==================Variables==================== //
+/**
+ * ==================== МОДУЛЬ МЕСЯЦА ====================
+ * Управление ежемесячными целями:
+ * - Добавление, удаление, выполнение целей
+ * - Приоритеты (1 - высокий, 2 - средний, 3 - низкий)
+ * - Навигация по месяцам
+ * - Фильтрация выполненных целей
+ * - Выделение важных целей (Alt+H)
+ * - Редактирование целей (двойной клик)
+ * - Добавление целей в ежедневные задачи
+ */
+
 import { getMonthKey, formatDisplayMonth, escapeHtml, showNotification } from './utils.js';
 import { addFromMonth, addFromMonthToNextDay } from './day.js';
 
+// ============== DOM ЭЛЕМЕНТЫ ==============
 const toPrev = document.getElementById("month-prev");
 const monthTitle = document.getElementById("month-title");
 const monthToggle = document.getElementById("month-toggle-done");
@@ -10,30 +22,25 @@ const monthInput = document.getElementById("month-input");
 const monthList = document.getElementById("month-list");
 const monthAddBtn = document.getElementById("month-addTask");
 
-// Состояние фильтра выполненных целей (true = скрывать выполненные)
+// ============== СОСТОЯНИЕ ==============
+// Фильтр выполненных целей
 let hideMonthCompleted = JSON.parse(localStorage.getItem("hideMonthCompleted")) || false;
-// Все цели по месяцам: { "2024-03": [{ id, text, priority, completed, highlighted }] }
+// Хранилище целей: { "2024-3": [{ id, text, priority, completed, highlighted }] }
 let tasks = JSON.parse(localStorage.getItem("monthTasks")) || {};
-
-// ====================Date======================= //
 
 // Текущий отображаемый месяц
 let currentDate = new Date();
 
-/**
- * Проверяет, является ли текущий отображаемый месяц реальным текущим месяцем
- * @returns {boolean} true если это текущий месяц
- */
+// ============== РАБОТА С ДАТОЙ ==============
+
+/** Проверяет, является ли текущий месяц реальным текущим месяцем */
 function isCurrentMonthReal() {
-  return getMonthKey(currentDate) == getMonthKey(new Date());
+  return getMonthKey(currentDate) === getMonthKey(new Date());
 }
 
-/**
- * Обновляет заголовок месяца и добавляет класс кликабельности
- */
+/** Обновляет заголовок месяца и делает его кликабельным */
 function updateMonthTitle() {
   monthTitle.textContent = formatDisplayMonth(currentDate);
-
   if (!isCurrentMonthReal()) {
     monthTitle.classList.add("month__title--clickable");
   } else {
@@ -41,11 +48,9 @@ function updateMonthTitle() {
   }
 }
 
-// ==================Controls===================== //
+// ============== НАВИГАЦИЯ ==============
 
-/**
- * Переход на предыдущий месяц
- */
+/** Переход на предыдущий месяц */
 function goToPrevMonth() {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -54,20 +59,15 @@ function goToPrevMonth() {
   render();
 }
 
-/**
- * Возврат к текущему месяцу (клик по заголовку)
- */
+/** Возврат к текущему месяцу (клик по заголовку) */
 function goToCurrentMonth() {
   if (isCurrentMonthReal()) return;
-
   currentDate = new Date();
   updateMonthTitle();
   render();
 }
 
-/**
- * Переход на следующий месяц
- */
+/** Переход на следующий месяц */
 function goToNextMonth() {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -76,49 +76,46 @@ function goToNextMonth() {
   render();
 }
 
-// =================Toggle button================= //
+// ============== ФИЛЬТР ВЫПОЛНЕННЫХ ==============
 
-/**
- * Обновляет иконку кнопки фильтра выполненных целей
- */
+/** Обновляет иконку кнопки фильтра */
 function updateToggleBtn() {
   const icon = monthToggle.querySelector("i");
   icon.className = hideMonthCompleted ? "fa-solid fa-eye-slash" : "fa-solid fa-eye";
 }
 
-/**
- * Переключает режим скрытия выполненных целей
- */
+/** Переключает режим скрытия выполненных целей */
 function toggleHide() {
   hideMonthCompleted = !hideMonthCompleted;
-
   updateToggleBtn();
   localStorage.setItem("hideMonthCompleted", JSON.stringify(hideMonthCompleted));
   render();
 }
 
-// ================add task======================= //
+// ============== ДОБАВЛЕНИЕ ЦЕЛЕЙ ==============
 
 /**
  * Добавляет новую цель на месяц
- * Поддерживает приоритеты: "1_текст" (высокий), "3_текст" (низкий), по умолчанию 2 (средний)
+ * Поддерживает приоритеты:
+ * - "1_текст" → высокий приоритет (1)
+ * - "3_текст" → низкий приоритет (3)
+ * - обычный текст → средний приоритет (2)
  */
 function addTask() {
   let text = monthInput.value.trim();
-  let priority = 2;  // средний приоритет по умолчанию
+  let priority = 2;
 
   if (!text) return;
 
   const key = getMonthKey(currentDate);
   if (!tasks[key]) tasks[key] = [];
 
-  // Парсинг приоритета из начала строки
   if (text.startsWith('1_')) {
     text = text.slice(2).trim();
-    priority = 1;  // высокий
+    priority = 1;
   } else if (text.startsWith("3_")) {
     text = text.slice(2).trim();
-    priority = 3;  // низкий
+    priority = 3;
   }
 
   tasks[key].push({
@@ -134,11 +131,11 @@ function addTask() {
   render();
 }
 
-// ===================render====================== //
+// ============== ОТРИСОВКА ==============
 
 /**
  * Отрисовывает список целей на месяц
- * Сортировка: сначала невыполненные по приоритету (1,2,3), затем выполненные по приоритету
+ * Сортировка: сначала невыполненные по приоритету, затем выполненные
  */
 function render() {
   monthList.innerHTML = "";
@@ -146,23 +143,21 @@ function render() {
   const key = getMonthKey(currentDate);
   let monthTasks = tasks[key] || [];
   
-  // Фильтрация выполненных (если включен режим)
   if (hideMonthCompleted) {
     monthTasks = monthTasks.filter(t => !t.completed);
   }
 
-  // Сортировка: сначала невыполненные по приоритету, потом выполненные
-  const firstUncompletedTasks = monthTasks.filter(t => !t.completed && t.priority == 1);
-  const secondUncompletedTasks = monthTasks.filter(t => !t.completed && t.priority == 2);
-  const thirdUncompletedTasks = monthTasks.filter(t => !t.completed && t.priority == 3);
-  const firstCompletedTasks = monthTasks.filter(t => t.completed && t.priority == 1);
-  const secondCompletedTasks = monthTasks.filter(t => t.completed && t.priority == 2);
-  const thirdCompletedTasks = monthTasks.filter(t => t.completed && t.priority == 3);
+  // Сортировка по приоритету и статусу
+  const firstUncompleted = monthTasks.filter(t => !t.completed && t.priority === 1);
+  const secondUncompleted = monthTasks.filter(t => !t.completed && t.priority === 2);
+  const thirdUncompleted = monthTasks.filter(t => !t.completed && t.priority === 3);
+  const firstCompleted = monthTasks.filter(t => t.completed && t.priority === 1);
+  const secondCompleted = monthTasks.filter(t => t.completed && t.priority === 2);
+  const thirdCompleted = monthTasks.filter(t => t.completed && t.priority === 3);
 
-  monthTasks = [...firstUncompletedTasks, ...secondUncompletedTasks, ...thirdUncompletedTasks, 
-                ...firstCompletedTasks, ...secondCompletedTasks, ...thirdCompletedTasks];
+  monthTasks = [...firstUncompleted, ...secondUncompleted, ...thirdUncompleted, 
+                ...firstCompleted, ...secondCompleted, ...thirdCompleted];
 
-  // Если нет целей - показываем сообщение
   if (monthTasks.length === 0) {
     const emptyMessage = document.createElement("li");
     emptyMessage.className = "month__item month__item--empty";
@@ -176,48 +171,48 @@ function render() {
     return;
   }
 
-  // Отображаем каждую цель
   monthTasks.forEach(task => {
-    let li = document.createElement("li");
+    const li = document.createElement("li");
     li.className = `month__item${task.completed ? " month__item--done" : ""}${task.highlighted ? " month__item--highlighted" : ""}`;
     li.dataset.id = task.id;
     li.innerHTML = `
       <span class="priority priority--${task.priority}" data-action="toggle" data-id="${task.id}">${task.priority}</span>
       <p class="month__text">${escapeHtml(task.text)}</p>
       <div class="month__actions">
-        <button class="month__action-btn btn btn--icon" data-action="add" aria-label="Добавить в день" data-id="${task.id}">
+        <button class="month__action-btn btn btn--icon" data-action="add" data-id="${task.id}">
           <i class="fa-solid fa-plus"></i>
         </button>
-        <button class="month__action-btn btn btn--icon" data-action="delete" aria-label="Удалить" data-id="${task.id}">
+        <button class="month__action-btn btn btn--icon" data-action="delete" data-id="${task.id}">
           <i class="fa-solid fa-trash"></i>
         </button>
       </div>
     `;
+    
     li.addEventListener("dblclick", (event) => {
       event.stopPropagation();
       editTask(task, li);
-    })
+    });
+    
     monthList.appendChild(li);
   });
 }
 
+// ============== РЕДАКТИРОВАНИЕ ==============
 
-// =================list item click=============== //
+/** Редактирование цели (двойной клик) */
+function editTask(task, element) {
+  const originalText = `${task.priority}_${task.text}`;
+  const originalElement = element.querySelector(".month__text");
 
-function editTask (task, element) {
-  const priority = task.priority
-  const originalText = `${priority}_${task.text}`;
-  const OriginalElement = element.querySelector(".month__text");
-
-  if (OriginalElement) {
+  if (originalElement) {
     const input = document.createElement("div");
     input.className = "edit-input input";
     input.contentEditable = "true";
     input.textContent = originalText;
 
-    OriginalElement.replaceWith(input);
+    originalElement.replaceWith(input);
     input.focus();
-    // Ставим курсор в конец текста
+    
     const range = document.createRange();
     const sel = window.getSelection();
     range.selectNodeContents(input);
@@ -225,17 +220,17 @@ function editTask (task, element) {
     sel?.removeAllRanges();
     sel?.addRange(range);
 
-
     input.addEventListener("blur", () => {
       let newText = input.textContent.trim();
       let newPriority = 2;
-      if (newText.startsWith("1_")){
-        newText = newText.slice(2);
-        newPriority = 1
-      } else if (newText.startsWith("2_")){
-        newText =newText.slice(2);
-      } else if (newText.startsWith("3_")){
-        newText=newText.slice(2);
+      
+      if (newText.startsWith("1_")) {
+        newText = newText.slice(2).trim();
+        newPriority = 1;
+      } else if (newText.startsWith("2_")) {
+        newText = newText.slice(2).trim();
+      } else if (newText.startsWith("3_")) {
+        newText = newText.slice(2).trim();
         newPriority = 3;
       }
 
@@ -244,23 +239,27 @@ function editTask (task, element) {
         task.priority = newPriority;
         localStorage.setItem("monthTasks", JSON.stringify(tasks));
       }
-      render ();
-    })
+      render();
+    });
 
     input.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         input.blur();
-      } else if (event.key == "Escape") {
+      } else if (event.key === "Escape") {
         render();
       }
-    })
+    });
   }
 }
 
+// ============== ОБРАБОТЧИК КЛИКОВ ==============
 
 /**
  * Обрабатывает клики по элементам списка целей
- * Действия: toggle (выполнить/вернуть), delete (удалить), add (добавить в день)
+ * Действия:
+ * - delete: удаление цели
+ * - toggle: выполнение/возврат
+ * - add: добавление в ежедневные задачи
  */
 function handleListClick(event) {
   const btn = event.target.closest("[data-action]");
@@ -273,21 +272,18 @@ function handleListClick(event) {
   if (!tasks[key]) return;
 
   if (action === 'delete') {
-    // Удаление цели
     tasks[key] = tasks[key].filter(t => t.id !== id);
     if (tasks[key].length === 0) delete tasks[key];
   } else if (action === 'toggle') {
-    // Переключение статуса выполнения
     const task = tasks[key].find(t => t.id === id);
     if (task) task.completed = !task.completed;
   } else if (action === 'add') {
-    // Добавление цели в текущий день (из day.js)
     const task = tasks[key].find(t => t.id === id);
     if (task) {
       if (event.shiftKey) {
-        addFromMonthToNextDay(task.text);  // Добавить на следующий день
+        addFromMonthToNextDay(task.text);
       } else {
-        addFromMonth(task.text);            // Добавить на текущий день
+        addFromMonth(task.text);
       }
     }
   }
@@ -296,13 +292,14 @@ function handleListClick(event) {
   render();
 }
 
-// ==============Highlight on Alt+H================ //
+// ============== ВЫДЕЛЕНИЕ ЦЕЛЕЙ ==============
 
+/** Выделяет/снимает выделение с цели под курсором (Alt+H) */
 export function highlightGoalUnderCursor() {
   const hoveredElement = document.querySelector(".month__item:hover");
 
   if (!hoveredElement) {
-    showNotification("❌ Наведите курсор на задачу");
+    showNotification("❌ Наведите курсор на цель");
     return;
   }
 
@@ -314,11 +311,11 @@ export function highlightGoalUnderCursor() {
     task.highlighted = !task.highlighted;
     localStorage.setItem("monthTasks", JSON.stringify(tasks));
     render();
-    showNotification(task.highlighted ? "✨ Задача выделена" : "✨ Выделение снято");
+    showNotification(task.highlighted ? "✨ Цель выделена" : "✨ Выделение снято");
   }
 }
 
-// =================init========================== //
+// ============== ИНИЦИАЛИЗАЦИЯ ==============
 
 export function initMonth() {
   updateMonthTitle();
@@ -330,6 +327,6 @@ export function initMonth() {
   toNext.addEventListener("click", goToNextMonth);
   monthToggle.addEventListener("click", toggleHide);
   monthInput.addEventListener("keydown", (event) => event.key === "Enter" && addTask());
-  monthAddBtn.addEventListener("click", addTask)
+  monthAddBtn.addEventListener("click", addTask);
   monthList.addEventListener("click", handleListClick);
 }

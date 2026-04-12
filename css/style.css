@@ -1,9 +1,13 @@
-/* ====================Colors===================== */
+/**
+ * ==================== DOABLE — Стили приложения ====================
+ * Тёмная и светлая темы, адаптивный дизайн
+ * Цветовая схема: тёплые тона с розовым акцентом
+ */
 
-/* ====================Colors===================== */
+/* ==================== ЦВЕТА ==================== */
 
 :root {
-  /* Основные цвета */
+  /* Основные цвета — тёмная тема */
   --bg: #302f2c;
   --bg-secondary: #3a3935;
   --bg-tertiary: #42413d;
@@ -13,7 +17,7 @@
   --text: #efede3;
   --text-muted: #c5c3b8;
   
-  /* Акценты - РОЗОВЫЙ */
+  /* Акценты — розовый */
   --accent: #d46b9c;
   --accent-dark: #b85482;
   --accent-glow: rgba(212, 107, 156, 0.25);
@@ -40,13 +44,38 @@
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.15);
   --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.2);
   --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.25);
-
   --text-on-accent: #efede3;
 }
 
-/* ====================Main======================= */
+/* Светлая тема */
+body.light {
+  --bg: #efede8;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f8f7f3;
+  --bg-hover: #e8e6e0;
+  --text: #1c1b18;
+  --text-muted: #5a5952;
+  --accent: #d46b9c;
+  --accent-dark: #b85482;
+  --accent-glow: rgba(212, 107, 156, 0.15);
+  --border: #d1cfc8;
+  --input-glow: rgba(212, 107, 156, 0.35);
+  --success: #5c8a4a;
+  --warning: #d4922a;
+  --priority-1: #e0735f;
+  --priority-1-bg: rgba(224, 115, 95, 0.12);
+  --priority-2: #d4a34a;
+  --priority-2-bg: rgba(212, 163, 74, 0.12);
+  --priority-3: #8a8980;
+  --priority-3-bg: rgba(138, 137, 128, 0.12);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.08);
+  --text-on-accent: #ffffff;
+}
 
-/* Сброс стилей и базовые настройки */
+/* ==================== БАЗОВЫЕ СТИЛИ ==================== */
+
 *,
 *::after,
 *::before {
@@ -66,6 +95,14 @@ body {
   color: var(--text);
   line-height: 1.5;
   min-height: 100vh;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Разрешаем выделение текста только в полях ввода */
+input, textarea, [contenteditable="true"] {
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 img {
@@ -73,23 +110,12 @@ img {
   display: block;
 }
 
-/* Стиль для выделения текста */
 ::selection {
   background-color: var(--accent);
   color: var(--bg-secondary);
 }
 
-body {
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-input, textarea, [contenteditable="true"] {
-  user-select: text;
-  -webkit-user-select: text;
-}
-
-/* ====================Scrollbar=================== */
+/* ==================== СКРОЛЛБАР ==================== */
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -109,51 +135,8 @@ input, textarea, [contenteditable="true"] {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
 }
-/* ====================Light theme================ */
 
-body.light {
-  /* Основные цвета - более контрастная белая тема */
-  --bg: #efede8;
-  --bg-secondary: #ffffff;
-  --bg-tertiary: #f8f7f3;     
-  --bg-hover: #e8e6e0;
-  
-  /* Текст - максимально контрастный */
-  --text: #1c1b18;
-  --text-muted: #5a5952;
-  
-  /* Акценты - РОЗОВЫЙ */
-  --accent: #d46b9c;
-  --accent-dark: #b85482;
-  --accent-glow: rgba(212, 107, 156, 0.15);
-  
-  /* Границы и тени - заметнее */
-  --border: #d1cfc8;
-  --input-glow: rgba(212, 107, 156, 0.35);
-  
-  /* Специальные */
-  --success: #5c8a4a;
-  --success-bg: rgba(92, 138, 74, 0.1);
-  --warning: #d4922a;
-  --warning-bg: rgba(212, 146, 42, 0.1);
-  
-  /* Приоритеты - насыщеннее */
-  --priority-1: #e0735f;
-  --priority-1-bg: rgba(224, 115, 95, 0.12);
-  --priority-2: #d4a34a;
-  --priority-2-bg: rgba(212, 163, 74, 0.12);
-  --priority-3: #8a8980;
-  --priority-3-bg: rgba(138, 137, 128, 0.12);
-  
-  /* Тени - глубже для объема */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.08);
-
-  --text-on-accent: #ffffff;
-}
-
-/* ====================Navbar===================== */
+/* ==================== НАВИГАЦИОННАЯ ПАНЕЛЬ ==================== */
 
 .nav {
   background-color: var(--bg-secondary);
@@ -161,8 +144,6 @@ body.light {
   position: sticky;
   top: 0;
   z-index: 100;
-  backdrop-filter: blur(10px);
-  background-color: rgba(var(--bg-secondary-rgb), 0.95);
 }
 
 .nav__container {
@@ -170,8 +151,6 @@ body.light {
   margin: 0 auto;
   padding: 10px 0;
 }
-
-/* TOP */
 
 .nav__top {
   display: grid;
@@ -192,12 +171,11 @@ body.light {
   scale: 1.02;
 }
 
-.nav__title--link{
+.nav__title--link {
   text-decoration: none;
 }
 
-/* BURGER */
-
+/* Бургер-меню */
 .nav__checkbox {
   display: none;
 }
@@ -226,7 +204,7 @@ body.light {
   transition: 0.3s;
 }
 
-/* АНИМАЦИЯ БУРГЕРА */
+/* Анимация бургера */
 .nav__checkbox:checked + .nav__top .nav__burger--line:nth-child(1) {
   transform: translateY(9px) rotate(45deg);
 }
@@ -239,7 +217,7 @@ body.light {
   transform: translateY(-9px) rotate(-45deg);
 }
 
-/* MENU */
+/* Меню */
 .nav__items {
   max-height: 0;
   overflow: hidden;
@@ -253,8 +231,6 @@ body.light {
   max-height: 200px;
 }
 
-/* ITEMS */
-
 .nav__item {
   margin: 8px 0;
   width: 100%;
@@ -263,8 +239,6 @@ body.light {
   align-items: center;
   justify-content: center;
 }
-
-/* BUTTONS */
 
 .nav__button {
   gap: 10px;
@@ -295,8 +269,6 @@ body.light {
   font-size: 1rem;
 }
 
-/* LOGO */
-
 .nav__item--img {
   display: none;
 }
@@ -305,7 +277,7 @@ body.light {
   scale: 1.05;
 }
 
-/* DESKTOP NavBar */
+/* Десктопная версия навигации */
 @media (min-width: 700px) {
   .nav__container {
     display: grid;
@@ -357,7 +329,7 @@ body.light {
   }
 }
 
-/* ====================Main container================ */
+/* ==================== ОСНОВНОЙ КОНТЕЙНЕР ==================== */
 
 .container {
   width: min(100%, 1500px);
@@ -375,7 +347,7 @@ body.light {
   gap: 20px;
 }
 
-/* Карточки (месяц, день, календарь, привычки) */
+/* Карточки */
 .month,
 .day,
 .calendar,
@@ -395,7 +367,7 @@ body.light {
   box-shadow: var(--shadow-md);
 }
 
-/* 2 колонки на больших экранах */
+/* Две колонки на больших экранах */
 @media (min-width: 850px) {
   .container {
     grid-template-columns: 2fr 1fr;
@@ -403,7 +375,7 @@ body.light {
   }
 }
 
-/* ====================Controls==================== */
+/* ==================== УПРАВЛЕНИЕ (кнопки, заголовки) ==================== */
 
 .month__controls,
 .day__controls,
@@ -415,8 +387,6 @@ body.light {
   margin-bottom: 20px;
 }
 
-
-/* Заголовки (дата, месяц) */
 .day__title,
 .month__title,
 .calendar__title {
@@ -432,7 +402,7 @@ body.light {
   flex: 1;
 }
 
-/* Hover эффект для кликабельных заголовков */
+/* Кликабельные заголовки */
 .day__title--clickable:hover,
 .month__title--clickable:hover,
 .calendar__title--clickable:hover {
@@ -441,7 +411,6 @@ body.light {
   transform: scale(1.02);
 }
 
-/* Active эффект для заголовков */
 .month__title:active,
 .day__title:active,
 .calendar__title:active {
@@ -474,6 +443,7 @@ body.light {
   transform: scale(1.1);
 }
 
+/* Адаптация для мобильных */
 @media (max-width: 600px) {
   .month__controls,
   .day__controls,
@@ -486,7 +456,7 @@ body.light {
   .month__title,
   .calendar__title {
     font-size: 1rem;
-    padding: 4px 4px;
+    padding: 4px;
   }
   
   .month__btn,
@@ -499,12 +469,6 @@ body.light {
 }
 
 @media (max-width: 400px) {
-  .month__controls,
-  .day__controls,
-  .calendar__controls {
-    gap: 2px;
-  }
-  
   .day__title,
   .month__title,
   .calendar__title {
@@ -521,23 +485,7 @@ body.light {
   }
 }
 
-@media (max-width: 320px) {
-  .day__title,
-  .month__title,
-  .calendar__title {
-    font-size: 0.7rem;
-  }
-  
-  .month__btn,
-  .day__btn,
-  .calendar__btn {
-    font-size: 0.7rem;
-    width: 24px;
-    height: 24px;
-  }
-}
-
-/* ====================Lists======================= */
+/* ==================== СПИСКИ ЗАДАЧ ==================== */
 
 .month__list,
 .day__list {
@@ -547,7 +495,7 @@ body.light {
   gap: 10px;
 }
 
-/* Элементы списка задач */
+/* Элементы списка */
 .month__item,
 .day__item {
   display: grid;
@@ -568,7 +516,6 @@ body.light {
   transform: translateX(2px);
 }
 
-/* Текст задачи */
 .month__text,
 .day__text {
   word-break: break-word;
@@ -577,7 +524,7 @@ body.light {
   line-height: 1.4;
 }
 
-/* Приоритеты (кружок с цифрой) */
+/* Приоритеты */
 .priority {
   width: 28px;
   height: 28px;
@@ -649,7 +596,7 @@ body.light {
   text-decoration: line-through;
 }
 
-/* Чекбокс задачи */
+/* Чекбокс */
 .day__check {
   color: var(--text-muted);
   background: none;
@@ -688,7 +635,7 @@ body.light {
   }
 }
 
-/* ====================Calendar==================== */
+/* ==================== КАЛЕНДАРЬ ==================== */
 
 .calendar__header {
   display: grid;
@@ -726,7 +673,7 @@ body.light {
   z-index: 1;
 }
 
-/* Индикатор наличия задач на день */
+/* Индикатор наличия записи в дневнике */
 .calendar__day--has-task::after {
   content: '';
   position: absolute;
@@ -737,12 +684,14 @@ body.light {
   border-radius: 50%;
 }
 
+/* Сегодняшний день */
 .calendar__day--today {
   border: 2px solid var(--accent);
   font-weight: 700;
   color: var(--accent);
 }
 
+/* Активная/выбранная дата */
 .calendar__day--active {
   border: 2px solid var(--accent);
   background-color: var(--accent-glow);
@@ -759,7 +708,7 @@ body.light {
   }
 }
 
-/* ====================Habit======================= */
+/* ==================== ПРИВЫЧКИ ==================== */
 
 .habit__header {
   position: relative;
@@ -802,7 +751,7 @@ body.light {
   background-color: var(--bg-hover);
 }
 
-/* Сетка трекера привычек */
+/* Сетка привычек */
 .habit__grid {
   display: grid;
   grid-template-columns: minmax(100px, auto) repeat(7, minmax(35px, 1fr));
@@ -812,7 +761,6 @@ body.light {
   overflow-x: visible;
 }
 
-/* Ячейка привычки */
 .habit__cell {
   aspect-ratio: 1/1;
   background-color: var(--bg);
@@ -827,13 +775,11 @@ body.light {
   background-color: var(--accent-glow);
 }
 
-/* Выполненная привычка */
 .habit__cell--done {
   background: var(--accent);
   box-shadow: 0 0 4px var(--accent);
 }
 
-/* Кнопка удаления привычки */
 .habit__delete-btn {
   background: none;
   border: none;
@@ -866,9 +812,7 @@ body.light {
   max-width: 100px;
 }
 
-
-
-/* ====================Inputs====================== */
+/* ==================== ПОЛЯ ВВОДА ==================== */
 
 .input-wrapper {
   position: relative;
@@ -893,7 +837,7 @@ body.light {
   background: var(--bg-hover);
 }
 
-/* Все кнопки внутри инпутов */
+/* Кнопка добавления внутри инпута */
 .add-btn {
   position: absolute;
   right: 8px;
@@ -911,7 +855,7 @@ body.light {
   border-radius: var(--radius-sm);
   transition: all 0.2s ease;
   font-size: 1.2rem;
-  z-index: 100000;
+  z-index: 1;
 }
 
 .add-btn:hover {
@@ -920,10 +864,11 @@ body.light {
   transform: translateY(-50%) scale(1.05);
 }
 
-.add-btn:active{
+.add-btn:active {
   transform: translateY(-50%) scale(0.95);
 }
 
+/* Редактируемое поле */
 .edit-input {
   padding: 5px 10px;
   word-break: break-word;
@@ -934,21 +879,22 @@ body.light {
   outline: none;
 }
 
-/* ====================Button Active States======== */
+/* ==================== КНОПКИ (общие) ==================== */
 
 button {
   transition: all 0.2s ease;
 }
 
-button:active{
-  transform: scale(0.95);
-}
-.btn:active{
+button:active {
   transform: scale(0.95);
 }
 
+.btn:active {
+  transform: scale(0.95);
+}
 
-/* ====================Diary Page==================== */
+/* ==================== СТРАНИЦА ДНЕВНИКА ==================== */
+
 .diary__container {
   width: min(100%, 1500px);
   margin: 0 auto;
@@ -1091,6 +1037,8 @@ button:active{
   color: var(--text-muted);
   opacity: 0.5;
 }
+
+/* Мобильная адаптация дневника */
 @media (max-width: 550px) {
   .diary__header {
     display: flex;
@@ -1119,16 +1067,6 @@ button:active{
     justify-content: center;
     padding: 10px;
   }
-  
-  .diary__clear-btn span,
-  .diary__copy-btn span {
-    display: inline;  /* Показываем текст на мобилках */
-  }
-  
-  .diary__clear-btn i,
-  .diary__copy-btn i {
-    font-size: 1rem;
-  }
 }
 
 @media (max-width: 400px) {
@@ -1142,12 +1080,12 @@ button:active{
   }
 }
 
-/* ====================Empty States================ */
+/* ==================== ПУСТЫЕ СОСТОЯНИЯ ==================== */
 
 .month__item--empty,
 .day__item--empty {
   text-align: center;
-  padding: 24px 24px;
+  padding: 24px;
   color: var(--text-muted);
   font-size: 0.85rem;
   grid-column: 1 / -1;
@@ -1162,14 +1100,14 @@ button:active{
   color: var(--text-muted);
 }
 
-/* ====================Notification================ */
+/* ==================== УВЕДОМЛЕНИЯ ==================== */
 
-.notification{
+.notification {
   position: fixed;
   bottom: 20px;
   right: 20px;
   background: var(--accent);
-  color: var(--text-on-accent);;
+  color: var(--text-on-accent);
   padding: 12px 20px;
   border-radius: 8px;
   z-index: 9999;
@@ -1197,9 +1135,9 @@ button:active{
     transform: translateX(100px);
   }
 }
-/* ====================Highlighted Items==================== */
 
-/* Выделенные задачи - только акцентная полоска */
+/* ==================== ВЫДЕЛЕННЫЕ ЭЛЕМЕНТЫ (Alt+H) ==================== */
+
 .day__item--highlighted,
 .month__item--highlighted {
   border-left: 3px solid var(--accent);

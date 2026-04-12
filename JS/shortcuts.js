@@ -1,6 +1,17 @@
-import { switchTheme } from "./theme.js";
-import { formatDate } from "./utils.js";
+/**
+ * ==================== ГОРЯЧИЕ КЛАВИШИ ====================
+ * Обрабатывает глобальные шорткаты по всему приложению
+ * Alt + буква - основные комбинации
+ */
 
+import { switchTheme } from "./theme.js";
+import { formatDate, showNotification } from "./utils.js";
+
+/**
+ * Определяет, на какой странице сейчас находится пользователь
+ * @param {string} page - имя страницы ('index', 'diary', 'settings')
+ * @returns {boolean} true если пользователь на указанной странице
+ */
 function isOnPage(page) {
   const path = window.location.pathname;
   
@@ -16,68 +27,39 @@ function isOnPage(page) {
   return false;
 }
 
-async function handleShortCuts(event) {  // ← async
-  // Alt + E (тема)
+/**
+ * Основной обработчик горячих клавиш
+ * @param {KeyboardEvent} event - событие нажатия клавиши
+ */
+async function handleShortCuts(event) {
+  // Alt + E / Alt + У - переключение темы
   if ((event.key === 'e' || event.key === 'у') && event.altKey) {
     event.preventDefault();
     switchTheme();
   }
   
-  // Alt + , (настройки)
+  // Alt + , - открыть настройки
   if ((event.key === ',') && event.altKey) {
     event.preventDefault();
     if (!isOnPage('settings')) {
-      window.location.href = `settings.html`;
+      window.location.href = `settings/index.html`;
     }
   }
   
-  // Alt + T (дневник)
+  // Alt + T / Alt + Е - открыть дневник или перейти на сегодня
   if ((event.key === 't' || event.key === 'е') && event.altKey) {
     event.preventDefault();
     
     if (isOnPage('diary')) {
-      // Динамический импорт только на странице дневника
       const { goToTodayInDiary } = await import('./diary.js');
       goToTodayInDiary();
     } else {
-      window.location.href = `diary.html?date=${formatDate(new Date())}`;
+      window.location.href = `diary/index.html?date=${formatDate(new Date())}`;
     }
   }
   
-  // Alt + H (фокус на привычки)
-  if ((event.key === 'h' || event.key === "р") && event.altKey) {
-    if (document.getElementById("habit-input")) {
-      event.preventDefault();
-      document.getElementById("habit-input").focus();
-    }
-  }
-  
-  // Alt + D (фокус на задачи дня)
-  if ((event.key === 'd' || event.key === "в") && event.altKey) {
-    if (document.getElementById("day-input")) {
-      event.preventDefault();
-      document.getElementById("day-input").focus();
-    }
-  }
-  
-  // Alt + M (фокус на цели месяца)
-  if ((event.key === 'm' || event.key === "ь") && event.altKey) {
-    if (document.getElementById("month-input")) {
-      event.preventDefault();
-      document.getElementById("month-input").focus();
-    }
-  }
-  
-  // Alt + R (главная страница)
-  if ((event.key === 'r' || event.key === 'к') && event.altKey) {
-    event.preventDefault();
-    if (!isOnPage('index')) {
-      window.location.href = `index.html`;
-    }
-  }
-
-  // Alt + H - выделить задачу под курсором
-    if ((event.key === 'q' || event.key === 'р') && event.altKey) {
+  // Alt + Q / Alt + Й - выделить задачу или цель под курсором
+  if ((event.key === 'q' || event.key === 'й') && event.altKey) {
     event.preventDefault();
     
     if (!isOnPage('diary') && !isOnPage('settings')) {
@@ -88,16 +70,44 @@ async function handleShortCuts(event) {  // ← async
         const { highlightTaskUnderCursor } = await import('./day.js');
         highlightTaskUnderCursor();
       } else if (monthTask) {
-        const { highlightGoalUnderCursor } = await import('./month.js');  // ← исправлено
+        const { highlightGoalUnderCursor } = await import('./month.js');
         highlightGoalUnderCursor();
       } else {
         showNotification("✨ Наведите курсор на задачу или цель");
       }
     }
   }
-
+  
+  // Alt + D / Alt + В - фокус на поле ввода задач дня
+  if ((event.key === 'd' || event.key === "в") && event.altKey) {
+    const input = document.getElementById("day-input");
+    if (input) {
+      event.preventDefault();
+      input.focus();
+    }
+  }
+  
+  // Alt + M / Alt + Ь - фокус на поле ввода целей месяца
+  if ((event.key === 'm' || event.key === "ь") && event.altKey) {
+    const input = document.getElementById("month-input");
+    if (input) {
+      event.preventDefault();
+      input.focus();
+    }
+  }
+  
+  // Alt + R / Alt + К - переход на главную страницу
+  if ((event.key === 'r' || event.key === 'к') && event.altKey) {
+    event.preventDefault();
+    if (!isOnPage('index')) {
+      window.location.href = `../index.html`;
+    }
+  }
 }
 
+/**
+ * Инициализирует глобальные горячие клавиши
+ */
 export function initShortCuts() {
   document.addEventListener("keydown", handleShortCuts);
 }

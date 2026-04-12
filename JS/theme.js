@@ -1,16 +1,18 @@
+/**
+ * ==================== УПРАВЛЕНИЕ ТЕМОЙ ====================
+ * Отвечает за переключение между тёмной и светлой темой
+ * Сохраняет выбор пользователя в localStorage
+ */
+
 import { showNotification } from './utils.js';
 
-
-// ==============Variables======================== //
-
+// DOM элементы
 const themeButton = document.getElementById("theme-btn");
 const body = document.body;
-const icon = themeButton.querySelector("i");
+const icon = themeButton?.querySelector("i");
 
-// Загружаем сохраненную тему (false = темная по умолчанию)
+// Загружаем сохранённую тему (false = тёмная по умолчанию)
 let lightTheme = JSON.parse(localStorage.getItem("theme")) || false;
-
-// ==============Update theme====================== //
 
 /**
  * Обновляет внешний вид в зависимости от текущей темы
@@ -19,29 +21,28 @@ let lightTheme = JSON.parse(localStorage.getItem("theme")) || false;
 function updateTheme() {
   if (lightTheme) {
     body.classList.add("light");
-    icon.className = "fa-solid fa-sun btn--icon";
+    if (icon) icon.className = "fa-solid fa-sun btn--icon";
   } else {
     body.classList.remove("light");
-    icon.className = "fa-solid fa-moon btn--icon";
+    if (icon) icon.className = "fa-solid fa-moon btn--icon";
   }
 }
 
-// ==============Switch theme====================== //
-
 /**
- * Переключает тему: меняет состояние lightTheme,
- * сохраняет выбор в localStorage и обновляет интерфейс
+ * Переключает тему
+ * Меняет состояние, сохраняет в localStorage и обновляет интерфейс
  */
 export function switchTheme() {
   lightTheme = !lightTheme;
   localStorage.setItem("theme", JSON.stringify(lightTheme));
   updateTheme();
-  showNotification(`${lightTheme ? "☀️ Светлая" : "🌙 Тёмная"} тема`)
+  showNotification(`${lightTheme ? "☀️ Светлая" : "🌙 Тёмная"} тема`);
 }
 
-// ==============Init============================== //
-
+/**
+ * Инициализирует тему при загрузке страницы
+ */
 export function initTheme() {
   updateTheme();
-  themeButton.addEventListener("click", switchTheme);
+  if (themeButton) themeButton.addEventListener("click", switchTheme);
 }
