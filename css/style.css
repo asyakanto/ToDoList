@@ -949,7 +949,7 @@ button:active{
 
 
 /* ====================Diary Page==================== */
-.diary__container{
+.diary__container {
   width: min(100%, 1500px);
   margin: 0 auto;
   padding: 20px;
@@ -987,30 +987,88 @@ button:active{
   border: 1px solid var(--border);
 }
 
+.diary__header {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto 1fr 1fr;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
 .diary__date {
-  text-align: center;
   font-size: 1.8rem;
   font-weight: 800;
   color: var(--accent);
-  margin-bottom: 20px;
+  margin: 0;
+  text-align: center;
+  grid-column: 3;
 }
+
+.diary__clear-btn,
+.diary__copy-btn {
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.diary__clear-btn i,
+.diary__copy-btn i {
+  font-size: 0.9rem;
+}
+
+.diary__clear-btn:hover {
+  background-color: var(--priority-1-bg);
+  border-color: var(--priority-1);
+  color: var(--priority-1);
+  transform: translateY(-1px);
+}
+
+.diary__copy-btn:hover {
+  background-color: var(--accent-glow);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.diary__clear-btn:active,
+.diary__copy-btn:active {
+  transform: translateY(0) scale(0.96);
+}
+
 .diary__fields {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
+
 .diary__field {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
+
 .diary__label {
   font-weight: 600;
   display: flex;
   align-items: center;
   gap: 8px;
   color: var(--text-muted);
+  font-size: 0.9rem;
 }
+
 .diary__textarea {
   padding: 12px;
   border-radius: var(--radius);
@@ -1028,9 +1086,60 @@ button:active{
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--input-glow);
 }
+
 .diary__textarea::placeholder {
   color: var(--text-muted);
   opacity: 0.5;
+}
+@media (max-width: 550px) {
+  .diary__header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .diary__date {
+    text-align: center;
+    font-size: 1.5rem;
+    order: 1;
+  }
+  
+  .diary__clear-btn {
+    order: 2;
+  }
+  
+  .diary__copy-btn {
+    order: 3;
+  }
+  
+  .diary__clear-btn,
+  .diary__copy-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px;
+  }
+  
+  .diary__clear-btn span,
+  .diary__copy-btn span {
+    display: inline;  /* Показываем текст на мобилках */
+  }
+  
+  .diary__clear-btn i,
+  .diary__copy-btn i {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .diary__date {
+    font-size: 1.3rem;
+  }
+  
+  .diary__clear-btn,
+  .diary__copy-btn {
+    padding: 8px;
+  }
 }
 
 /* ====================Empty States================ */

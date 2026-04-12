@@ -2,43 +2,34 @@
 
 import { formatDisplayAbsoluteDate, formatDate, showNotification } from './utils.js';
 import { initCalendar } from './calendar.js';
-import { initTheme } from './theme.js';  // Инициализация темы (светлая/темная)
+import { initTheme } from './theme.js';
 import { initShortCuts } from './shortcuts.js';
 import { getCurrentRealDate } from './day.js';
-import { initSettings } from './settings.js';
-
-
+import { initSettings } from './settings.js'
 
 
 // ====================Elements==================== //
 
-const diaryDate = document.getElementById("diary-date");      // Заголовок с датой
-const diaryMood = document.getElementById("diary-mood");      // Поле "Эмоции"
-const diaryEvents = document.getElementById("diary-events");  // Поле "События"
-const diaryGoals = document.getElementById("diary-goals");    // Поле "Цели"
+const diaryDate = document.getElementById("diary-date");
+const diaryMood = document.getElementById("diary-mood");
+const diaryEvents = document.getElementById("diary-events");
+const diaryGoals = document.getElementById("diary-goals");
+const clearBtn = document.getElementById("clear_btn");
+const copyBtn = document.getElementById("copy_btn");
 
 // ====================Data========================= //
 
-// = {"2024-03-22": {mood: "не счастлив", events: "ничего", goals: "не сдохнуть"}, "2024-03-23": {...}, ...}
 let diaryEntries = JSON.parse(localStorage.getItem("diaryEntries")) || {};
-// Текущая открытая дата
 let currentDate = null;
 
 // ====================Helpers====================== //
 
-/**
- * Обновляет заголовок страницы с датой
- */
 function updateDiaryTitle() {
   if (diaryDate) {
-      diaryDate.textContent = formatDisplayAbsoluteDate(currentDate);
+    diaryDate.textContent = formatDisplayAbsoluteDate(currentDate);
   }
 }
 
-/**
- * Получает дату из URL параметра 'date'
- * @returns {string} дата в формате "2024-03-22" или сегодняшняя
- */
 function getDateFromURL() {
   const params = new URLSearchParams(window.location.search);
   const date = params.get('date');
@@ -46,50 +37,34 @@ function getDateFromURL() {
   return formatDate(new Date());
 }
 
-/**
- * Загружает и отображает заметку для текущей даты
- */
 export function render() {
   const entry = diaryEntries[currentDate] || { mood: "", events: "", goals: "" };
-  diaryMood.value = entry.mood;
-  diaryEvents.value = entry.events;
-  diaryGoals.value = entry.goals;
+  if (diaryMood) diaryMood.value = entry.mood;
+  if (diaryEvents) diaryEvents.value = entry.events;
+  if (diaryGoals) diaryGoals.value = entry.goals;
 }
 
-/**
- * Сохраняет одно поле заметки в localStorage
- * @param {string} field - имя поля ("mood", "events", "goals")
- * @param {string} value - текст для сохранения
- */
 function saveField(field, value) {
   if (!diaryEntries[currentDate]) {
     diaryEntries[currentDate] = { mood: "", events: "", goals: "" };
   }
   diaryEntries[currentDate][field] = value;
   localStorage.setItem("diaryEntries", JSON.stringify(diaryEntries));
-  showNotification("Запись сохранена")
+  showNotification("📝 Запись сохранена");
 }
 
 // ====================Calendar callback============ //
 
-/**
- * Обработчик клика по дню в календаре
- * @param {string} dateStr - дата в формате "2024-03-22"
- */
 function clickOnDay(dateStr) {
   currentDate = dateStr;
   updateDiaryTitle();
   render();
   initCalendar(clickOnDay, currentDate);
-  // Обновляем URL без перезагрузки страницы
   window.history.pushState({}, "", `?date=${dateStr}`);
 }
+
 // ====================Navigate to today============ //
 
-
-/**
- * Переход на сегодняшнюю дату в дневнике
- */
 export function goToTodayInDiary() {
   const todayStr = formatDate(getCurrentRealDate());
   currentDate = todayStr;
@@ -97,6 +72,30 @@ export function goToTodayInDiary() {
   render();
   initCalendar(clickOnDay, currentDate);
   window.history.pushState({}, "", `?date=${todayStr}`);
+  showNotification("📅 Переход на сегодня");
+}
+
+// ====================Clear & Copy================= //
+
+function clearCurrentText() {
+  diaryEntries[currentDate] = { mood: "", events: "", goals: "" };
+  localStorage.setItem("diaryEntries", JSON.stringify(diaryEntries));
+  render();
+  showNotification("🧹 Заметка очищена");
+}
+
+function copyToClipboard() {
+  const entry = diaryEntries[currentDate] || { mood: "", events: "", goals: "" };
+  const text = `📅 ${formatDisplayAbsoluteDate(currentDate)}\n\n` +
+    `😊 Эмоции:\n${entry.mood || "—"}\n\n` +
+    `📅 События:\n${entry.events || "—"}\n\n` +
+    `🎯 Цели:\n${entry.goals || "—"}`;
+  
+  navigator.clipboard.writeText(text).then(() => {
+    showNotification("📋 Заметка скопирована");
+  }).catch(() => {
+    showNotification("❌ Не удалось скопировать");
+  });
 }
 
 // ====================Init========================= //
@@ -106,15 +105,16 @@ function initDiary() {
   updateDiaryTitle();
   render();
   
-  diaryMood.addEventListener("blur", () => saveField("mood", diaryMood.value));
-  diaryEvents.addEventListener("blur", () => saveField("events", diaryEvents.value));
-  diaryGoals.addEventListener("blur", () => saveField("goals", diaryGoals.value));
+  if (diaryMood) diaryMood.addEventListener("blur", () => saveField("mood", diaryMood.value));
+  if (diaryEvents) diaryEvents.addEventListener("blur", () => saveField("events", diaryEvents.value));
+  if (diaryGoals) diaryGoals.addEventListener("blur", () => saveField("goals", diaryGoals.value));
+  if (clearBtn) clearBtn.addEventListener("click", clearCurrentText);
+  if (copyBtn) copyBtn.addEventListener("click", copyToClipboard);
   
-  // календарь с колбэком для переключения дня
   initCalendar(clickOnDay, currentDate);
 }
 
-initSettings();
-initShortCuts();
 initTheme();
+initShortCuts();
 initDiary();
+initSettings();
