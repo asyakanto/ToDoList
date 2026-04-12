@@ -1,32 +1,47 @@
 /* ====================Colors===================== */
 
+/* ====================Colors===================== */
+
 :root {
-  --bg: #121212;
-  --bg-secondary: #1a1a1a;
-  --bg-tertiary: #1f1f1f;
-  --bg-hover: #2a2a2a;
-  --text: #e0e0e0;
-  --text-muted: #a0a0a0;
-  --accent: #7c5cff;
-  --accent-dark: #5c3ccf;
-  --accent-glow: rgba(124, 92, 255, 0.2);
-  --border: #2a2a2a;
-  --input-glow: #7c5cff4d;
-  --success: #4caf50;
-  --warning: #ff9800;
-
-  --priority-1: #e25f5f;
-  --priority-1-bg: rgba(226, 95, 95, 0.15);
-  --priority-2: #d29e1d;
-  --priority-2-bg: rgba(210, 158, 29, 0.15);
-  --priority-3: #7a7a7a;
-  --priority-3-bg: rgba(122, 122, 122, 0.15);
-
+  /* Основные цвета */
+  --bg: #302f2c;
+  --bg-secondary: #3a3935;
+  --bg-tertiary: #42413d;
+  --bg-hover: #4a4945;
+  
+  /* Текст */
+  --text: #efede3;
+  --text-muted: #c5c3b8;
+  
+  /* Акценты - РОЗОВЫЙ */
+  --accent: #d46b9c;
+  --accent-dark: #b85482;
+  --accent-glow: rgba(212, 107, 156, 0.25);
+  
+  /* Границы и тени */
+  --border: #4a4945;
+  --input-glow: rgba(212, 107, 156, 0.4);
+  
+  /* Специальные */
+  --success: #6b9c5c;
+  --warning: #e0a34b;
+  
+  /* Приоритеты */
+  --priority-1: #e0735f;
+  --priority-1-bg: rgba(224, 115, 95, 0.15);
+  --priority-2: #d4a34a;
+  --priority-2-bg: rgba(212, 163, 74, 0.15);
+  --priority-3: #8a8982;
+  --priority-3-bg: rgba(138, 137, 130, 0.15);
+  
+  /* Радиусы и тени */
   --radius: 12px;
   --radius-sm: 8px;
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
-  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.25);
+
+  --text-on-accent: #efede3;
 }
 
 /* ====================Main======================= */
@@ -97,18 +112,45 @@ input, textarea, [contenteditable="true"] {
 /* ====================Light theme================ */
 
 body.light {
-  --bg: #f5f7fa;
+  /* Основные цвета - более контрастная белая тема */
+  --bg: #efede8;
   --bg-secondary: #ffffff;
-  --bg-tertiary: #f8f9fa;
-  --bg-hover: #e9ecef;
-  --text: #1a1a2e;
-  --text-muted: #6c757d;
-  --border: #dee2e6;
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
-  --priority-1-bg: rgba(226, 95, 95, 0.1);
-  --priority-2-bg: rgba(210, 158, 29, 0.1);
-  --priority-3-bg: rgba(122, 122, 122, 0.1);
+  --bg-tertiary: #f8f7f3;     
+  --bg-hover: #e8e6e0;
+  
+  /* Текст - максимально контрастный */
+  --text: #1c1b18;
+  --text-muted: #5a5952;
+  
+  /* Акценты - РОЗОВЫЙ */
+  --accent: #d46b9c;
+  --accent-dark: #b85482;
+  --accent-glow: rgba(212, 107, 156, 0.15);
+  
+  /* Границы и тени - заметнее */
+  --border: #d1cfc8;
+  --input-glow: rgba(212, 107, 156, 0.35);
+  
+  /* Специальные */
+  --success: #5c8a4a;
+  --success-bg: rgba(92, 138, 74, 0.1);
+  --warning: #d4922a;
+  --warning-bg: rgba(212, 146, 42, 0.1);
+  
+  /* Приоритеты - насыщеннее */
+  --priority-1: #e0735f;
+  --priority-1-bg: rgba(224, 115, 95, 0.12);
+  --priority-2: #d4a34a;
+  --priority-2-bg: rgba(212, 163, 74, 0.12);
+  --priority-3: #8a8980;
+  --priority-3-bg: rgba(138, 137, 128, 0.12);
+  
+  /* Тени - глубже для объема */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.08);
+
+  --text-on-accent: #ffffff;
 }
 
 /* ====================Navbar===================== */
@@ -1018,7 +1060,7 @@ button:active{
   bottom: 20px;
   right: 20px;
   background: var(--accent);
-  color: #e0e0e0;
+  color: var(--text-on-accent);;
   padding: 12px 20px;
   border-radius: 8px;
   z-index: 9999;
