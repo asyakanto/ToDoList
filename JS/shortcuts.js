@@ -76,6 +76,27 @@ async function handleShortCuts(event) {  // ← async
       window.location.href = `index.html`;
     }
   }
+
+  // Alt + H - выделить задачу под курсором
+    if ((event.key === 'q' || event.key === 'р') && event.altKey) {
+    event.preventDefault();
+    
+    if (!isOnPage('diary') && !isOnPage('settings')) {
+      const dayTask = document.querySelector(".day__item:hover");
+      const monthTask = document.querySelector(".month__item:hover");
+      
+      if (dayTask) {
+        const { highlightTaskUnderCursor } = await import('./day.js');
+        highlightTaskUnderCursor();
+      } else if (monthTask) {
+        const { highlightGoalUnderCursor } = await import('./month.js');  // ← исправлено
+        highlightGoalUnderCursor();
+      } else {
+        showNotification("✨ Наведите курсор на задачу или цель");
+      }
+    }
+  }
+
 }
 
 export function initShortCuts() {

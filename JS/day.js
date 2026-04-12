@@ -13,7 +13,7 @@ const addTaskBtn = document.getElementById("day-addTask");
 
 // Состояние фильтра выполненных задач (true = скрывать выполненные)
 let hideCompleted = JSON.parse(localStorage.getItem("hideCompleted")) || false;
-// Все задачи по дням: { "2024-03-22": [{ id, text, completed }] }
+// Все задачи по дням: { "2024-03-22": [{ id, text, completed, highlitghed }] }
 let tasks = JSON.parse(localStorage.getItem("dayTasks")) || {};
 
 // ==============Date============================= //
@@ -146,6 +146,7 @@ function addTaskToNextDay() {
     id: Date.now(),
     text: text,
     completed: false,
+    highlighted: false,
   });
 
   dayInput.value = "";
@@ -192,7 +193,7 @@ function render() {
   // Отображаем каждую задачу
   dayTasks.forEach(task => {
     let li = document.createElement("li");
-    li.className = `day__item${task.completed ? " day__item--done" : ""}`;
+    li.className = `day__item${task.completed ? " day__item--done" : ""}${task.highlighted ? " day__item--highlighted" : ""}`;
     li.dataset.id = task.id;
     li.innerHTML = `
       <button class="day__check btn btn--icon" data-action="toggle" data-id="${task.id}">
@@ -211,6 +212,12 @@ function render() {
     })
     dayList.appendChild(li);
   });
+}
+
+function highlightMessage(task) {
+  task.highlighted = !task.highlighted;
+  localStorage.setItem("dayTasks", JSON.stringify(tasks));
+  render();
 }
 
 // ===============Editing Task==================== //
@@ -259,28 +266,54 @@ function editTask(task, element) {
  * Обрабатывает клики по элементам списка задач
  * Действия: toggle (выполнить/вернуть), delete (удалить)
  */
+// Вместо li.addEventListener, добавь в handleListClick проверку на выделение
 function handleListClick(event) {
+  // Сначала проверяем - может клик по кнопке?
   const btn = event.target.closest("button");
-  if (!btn) return;
-
-  const id = Number(btn.dataset.id);
-  const action = btn.dataset.action;
-  const key = formatDate(currentDate);
-
-  if (!tasks[key]) return;
-
-  if (action === "delete") {
-    // Удаление задачи
-    tasks[key] = tasks[key].filter(t => t.id !== id);
-    if (tasks[key].length === 0) delete tasks[key];
-  } else if (action === 'toggle') {
-    // Переключение статуса выполнения
-    const task = tasks[key].find(t => t.id === id);
-    if (task) task.completed = !task.completed;
+  
+  // Если клик по кнопке - обрабатываем действия
+  if (btn) {
+    const id = Number(btn.dataset.id);
+    const action = btn.dataset.action;
+    const key = formatDate(currentDate);
+    
+    if (!tasks[key]) return;
+    
+    if (action === "delete") {
+      tasks[key] = tasks[key].filter(t => t.id !== id);
+      if (tasks[key].length === 0) delete tasks[key];
+    } else if (action === 'toggle') {
+      const task = tasks[key].find(t => t.id === id);
+      if (task) task.completed = !task.completed;
+    }
+    
+    localStorage.setItem("dayTasks", JSON.stringify(tasks));
+    render();
+    return;
   }
+}
 
-  localStorage.setItem("dayTasks", JSON.stringify(tasks));
-  render();
+// ==============Highlight on Alt+H================ //
+
+export function highlightTaskUnderCursor() {
+  // Находим задачу под курсором
+  const hoveredElement = document.querySelector(".day__item:hover");
+  
+  if (!hoveredElement) {
+    showNotification("❌ Наведите курсор на задачу");
+    return;
+  }
+  
+  const taskId = Number(hoveredElement.dataset.id);
+  const key = formatDate(currentDate);
+  const task = tasks[key]?.find(t => t.id === taskId);
+  
+  if (task) {
+    task.highlighted = !task.highlighted;
+    localStorage.setItem("dayTasks", JSON.stringify(tasks));
+    render();
+    showNotification(task.highlighted ? "✨ Задача выделена" : "✨ Выделение снято");
+  }
 }
 
 // ===================Add from months============= //
@@ -298,6 +331,7 @@ export function addFromMonth(text) {
     id: Date.now(),
     text: text,
     completed: false,
+    highlighted: false,
   });
 
   localStorage.setItem("dayTasks", JSON.stringify(tasks));
@@ -314,6 +348,7 @@ export function addFromMonthToNextDay(text) {
     id: Date.now(),
     text: text,
     completed: false,
+    highlighted: false,
   });
 
   localStorage.setItem("dayTasks", JSON.stringify(tasks));

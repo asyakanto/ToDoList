@@ -1,5 +1,5 @@
 // ==================Variables==================== //
-import { getMonthKey, formatDisplayMonth, escapeHtml } from './utils.js';
+import { getMonthKey, formatDisplayMonth, escapeHtml, showNotification } from './utils.js';
 import { addFromMonth, addFromMonthToNextDay } from './day.js';
 
 const toPrev = document.getElementById("month-prev");
@@ -12,7 +12,7 @@ const monthAddBtn = document.getElementById("month-addTask");
 
 // Состояние фильтра выполненных целей (true = скрывать выполненные)
 let hideMonthCompleted = JSON.parse(localStorage.getItem("hideMonthCompleted")) || false;
-// Все цели по месяцам: { "2024-03": [{ id, text, priority, completed }] }
+// Все цели по месяцам: { "2024-03": [{ id, text, priority, completed, highlighted }] }
 let tasks = JSON.parse(localStorage.getItem("monthTasks")) || {};
 
 // ====================Date======================= //
@@ -126,6 +126,7 @@ function addTask() {
     text: text,
     priority: priority,
     completed: false,
+    highlighted: false,
   });
 
   monthInput.value = "";
@@ -178,7 +179,7 @@ function render() {
   // Отображаем каждую цель
   monthTasks.forEach(task => {
     let li = document.createElement("li");
-    li.className = `month__item${task.completed ? " month__item--done" : ""}`;
+    li.className = `month__item${task.completed ? " month__item--done" : ""}${task.highlighted ? " month__item--highlighted" : ""}`;
     li.dataset.id = task.id;
     li.innerHTML = `
       <span class="priority priority--${task.priority}" data-action="toggle" data-id="${task.id}">${task.priority}</span>
@@ -293,6 +294,28 @@ function handleListClick(event) {
 
   localStorage.setItem("monthTasks", JSON.stringify(tasks));
   render();
+}
+
+// ==============Highlight on Alt+H================ //
+
+export function highlightGoalUnderCursor() {
+  const hoveredElement = document.querySelector(".month__item:hover");
+
+  if (!hoveredElement) {
+    showNotification("❌ Наведите курсор на задачу");
+    return;
+  }
+
+  const taskId = Number(hoveredElement.dataset.id);
+  const key = getMonthKey(currentDate);
+  const task = tasks[key]?.find(t => t.id === taskId);
+
+  if (task) {
+    task.highlighted = !task.highlighted;
+    localStorage.setItem("monthTasks", JSON.stringify(tasks));
+    render();
+    showNotification(task.highlighted ? "✨ Задача выделена" : "✨ Выделение снято");
+  }
 }
 
 // =================init========================== //

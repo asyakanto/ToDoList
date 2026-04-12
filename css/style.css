@@ -1197,3 +1197,15 @@ button:active{
     transform: translateX(100px);
   }
 }
+/* ====================Highlighted Items==================== */
+
+/* Выделенные задачи - только акцентная полоска */
+.day__item--highlighted,
+.month__item--highlighted {
+  border-left: 3px solid var(--accent);
+}
+
+.day__item--highlighted:hover,
+.month__item--highlighted:hover {
+  border-left: 4px solid var(--accent);
+}
