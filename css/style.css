@@ -64,6 +64,16 @@ img {
   color: var(--bg-secondary);
 }
 
+body {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+input, textarea, [contenteditable="true"] {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
 /* ====================Scrollbar=================== */
 
 ::-webkit-scrollbar {
@@ -818,16 +828,12 @@ body.light {
 
 /* ====================Inputs====================== */
 
-.month__input-wrapper,
-.day__input-wrapper,
-.habit__input-wrapper {
+.input-wrapper {
   position: relative;
   margin-bottom: 16px;
 }
 
-.month__input,
-.day__input,
-.habit__input {
+.input {
   width: 100%;
   padding: 12px 50px 12px 14px;
   border-radius: var(--radius-sm);
@@ -839,18 +845,14 @@ body.light {
   transition: all 0.2s ease;
 }
 
-.month__input:focus,
-.day__input:focus,
-.habit__input:focus {
+.input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--input-glow);
   background: var(--bg-hover);
 }
 
 /* Все кнопки внутри инпутов */
-.month__add-btn,
-.day__add-btn,
-.habit__add-btn {
+.add-btn {
   position: absolute;
   right: 8px;
   top: 50%;
@@ -870,18 +872,24 @@ body.light {
   z-index: 100000;
 }
 
-.month__add-btn:hover,
-.day__add-btn:hover,
-.habit__add-btn:hover {
+.add-btn:hover {
   color: var(--accent);
   background-color: var(--bg-hover);
   transform: translateY(-50%) scale(1.05);
 }
 
-.month__add-btn:active,
-.day__add-btn:active,
-.habit__add-btn:active {
+.add-btn:active{
   transform: translateY(-50%) scale(0.95);
+}
+
+.edit-input {
+  padding: 5px 10px;
+  word-break: break-word;
+  white-space: pre-wrap;
+  background-color: var(--bg);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  outline: none;
 }
 
 /* ====================Button Active States======== */
@@ -890,8 +898,11 @@ button {
   transition: all 0.2s ease;
 }
 
-button:active {
-  transform: scale(0.96);
+button:active{
+  transform: scale(0.95);
+}
+.btn:active{
+  transform: scale(0.95);
 }
 
 

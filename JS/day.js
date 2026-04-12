@@ -205,8 +205,52 @@ function render() {
         </button>
       </div>
     `;
+    li.addEventListener("dblclick", (event) => {
+      event.stopPropagation();
+      editTask(task, li);
+    })
     dayList.appendChild(li);
   });
+}
+
+// ===============Editing Task==================== //
+
+function editTask(task, element) {
+  const originalText = task.text;
+  const originalElement = element.querySelector(".day__text");
+
+  if (originalElement) {
+    const input = document.createElement("div");
+    input.className = "edit-input input";
+    input.contentEditable = "true";
+    input.textContent = originalText;
+
+    originalElement.replaceWith(input);
+    input.focus();
+    const range = document.createRange();
+    const sel = window.getSelection();
+    range.selectNodeContents(input);
+    range.collapse(false);
+    sel?.removeAllRanges();
+    sel?.addRange(range);
+
+    input.addEventListener("blur", () => {
+      const newText = input.textContent.trim();
+      if (newText && newText !== originalText) {
+        task.text = newText;
+        localStorage.setItem("dayTasks", JSON.stringify(tasks));
+      }
+      render ();
+    });
+
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        input.blur()
+      } else if (event.key === "Escape") {
+        render();
+      }
+    });
+  };
 }
 
 // ===============list item clicks================ //
@@ -290,7 +334,6 @@ export function initDay() {
       if (event.shiftKey) {
         addTaskToNextDay();
       } else {
-        console.log(123)
         addTask();
       }
     }

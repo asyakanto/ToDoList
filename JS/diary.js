@@ -5,6 +5,8 @@ import { initCalendar } from './calendar.js';
 import { initTheme } from './theme.js';  // Инициализация темы (светлая/темная)
 import { initShortCuts } from './shortcuts.js';
 import { getCurrentRealDate } from './day.js';
+import { initSettings } from './settings.js';
+
 
 
 
@@ -112,6 +114,7 @@ function initDiary() {
   initCalendar(clickOnDay, currentDate);
 }
 
-initDiary();
-initTheme();
+initSettings();
 initShortCuts();
+initTheme();
+initDiary();

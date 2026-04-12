@@ -192,11 +192,70 @@ function render() {
         </button>
       </div>
     `;
+    li.addEventListener("dblclick", (event) => {
+      event.stopPropagation();
+      editTask(task, li);
+    })
     monthList.appendChild(li);
   });
 }
 
+
 // =================list item click=============== //
+
+function editTask (task, element) {
+  const priority = task.priority
+  const originalText = `${priority}_${task.text}`;
+  const OriginalElement = element.querySelector(".month__text");
+
+  if (OriginalElement) {
+    const input = document.createElement("div");
+    input.className = "edit-input input";
+    input.contentEditable = "true";
+    input.textContent = originalText;
+
+    OriginalElement.replaceWith(input);
+    input.focus();
+    // Ставим курсор в конец текста
+    const range = document.createRange();
+    const sel = window.getSelection();
+    range.selectNodeContents(input);
+    range.collapse(false);
+    sel?.removeAllRanges();
+    sel?.addRange(range);
+
+
+    input.addEventListener("blur", () => {
+      let newText = input.textContent.trim();
+      let newPriority = 2;
+      if (newText.startsWith("1_")){
+        newText = newText.slice(2);
+        newPriority = 1
+      } else if (newText.startsWith("2_")){
+        newText =newText.slice(2);
+      } else if (newText.startsWith("3_")){
+        newText=newText.slice(2);
+        newPriority = 3;
+      }
+
+      if (newText && newText !== originalText) {
+        task.text = newText;
+        task.priority = newPriority;
+        localStorage.setItem("monthTasks", JSON.stringify(tasks));
+      }
+      render ();
+    })
+
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        input.blur();
+      } else if (event.key == "Escape") {
+        render();
+      }
+    })
+  }
+}
+
 
 /**
  * Обрабатывает клики по элементам списка целей

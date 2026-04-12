@@ -11,15 +11,13 @@ const calGrid = document.getElementById("calendar-grid");     // Сетка с �
 
 // ====================Data======================= //
 
-// = {"2024-03-22": {mood: "не счастлив", events: "ничего", goals: "не сдохнуть"}, "2024-03-23": {...}, ...}
-const diaryEntries = JSON.parse(localStorage.getItem("diaryEntries")) || {};
-
 /**
  * Проверяет, есть ли заметка в дневнике на указанную дату
  * @param {string} dateStr - дата в формате "2024-03-22"
  * @returns {boolean} true если есть хотя бы одно непустое поле
  */
 function hasDiaryEntry(dateStr) {
+  // = {"2024-03-22": {mood: "не счастлив", events: "ничего", goals: "не сдохнуть"}, "2024-03-23": {...}, ...}
   const diaryEntries = JSON.parse(localStorage.getItem("diaryEntries")) || {};
   const entry = diaryEntries[dateStr];
   if (!entry) return false;

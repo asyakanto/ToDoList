@@ -80,6 +80,7 @@ function render() {
 
     const habitSpan = document.createElement("span");
     habitSpan.textContent = habit.name;
+    habitSpan.classList.add("habitSpan");
     habitName.appendChild(habitSpan);
 
     if (isRedactinHabits) {
@@ -89,6 +90,11 @@ function render() {
       habitButton.textContent = "✕";
       habitButton.addEventListener("click", deleteHabit);
       habitName.appendChild(habitButton);
+
+      habitSpan.addEventListener("dblclick", (event) => {
+        event.stopPropagation();
+        editHabit(habit, habitSpan);
+      })
     };
 
     habitGrid.appendChild(habitName);
@@ -109,6 +115,46 @@ function render() {
       habitGrid.appendChild(habitCell);
     }
   });
+}
+// ==============Add habit========================= //
+
+function editHabit (habit, element){
+  const originalText = habit.name;
+  const originalElement = element;
+
+  if (originalElement) {
+    const input = document.createElement("div");
+    input.className = "edit-input input";
+    input.contentEditable = "true";
+    input.textContent=originalText;
+
+    originalElement.replaceWith(input);
+    input.focus();
+    const range = document.createRange();
+    const sel = window.getSelection();
+    range.selectNodeContents(input);
+    range.collapse(false);
+    sel?.removeAllRanges();
+    sel?.addRange(range);
+
+
+    input.addEventListener("blur", () =>{
+      const newName = input.textContent.trim();
+      if(newName && newName!==originalText){
+        habit.name = newName;
+        localStorage.setItem("habits", JSON.stringify(habits));
+      }
+      render();
+    });
+
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        input.blur()
+      } else if(event.key === "Escape") {
+        render();
+      }
+    });
+  }
 }
 
 // ==============Add habit========================= //
