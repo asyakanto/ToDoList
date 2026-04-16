@@ -139,7 +139,8 @@ img {
 /* ==================== НАВИГАЦИОННАЯ ПАНЕЛЬ ==================== */
 
 .nav {
-  background-color: var(--bg-secondary);
+  background-color: rgba(var(--bg-secondary-rgb), 0.85);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
